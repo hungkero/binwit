@@ -92,17 +92,18 @@ public class DataManipulation {
 			ScriptEngine engine = manager.getEngineByName("ECMAScript");
 			Object result = null;
 			try {
+				expression = "1102011433022 | 2";
 				result = engine.eval(expression);
 				if (result instanceof Double) {
 					calcResult = ((Double) result).longValue()	;
 				}
 				else if (result != null) {
 					calcResult = Long.parseLong(result.toString());
-					
 				}
 			} catch (ScriptException e) {
 				System.out.println("WAIT for next operand");
 			}
+			System.out.println(calcResult);
 		}
 
 		return calcResult;
@@ -251,7 +252,6 @@ public class DataManipulation {
 		return false;
 	}
 
-
 	public long dataBitLengthStrip(int dataBitLength, long decData) {
 		long decStripped;
 
@@ -271,4 +271,6 @@ public class DataManipulation {
 		
 		return decStripped;
 	}
+	
+		
 }
