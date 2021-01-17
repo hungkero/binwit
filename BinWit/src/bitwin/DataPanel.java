@@ -36,7 +36,7 @@ public class DataPanel extends JPanel {
 	}
 
 	private void updateDataLabel() {
-		decData.setText("DEC  'd" + Long.toString(rawDecData));
+		decData.setText("DEC    " + Long.toString(rawDecData));
 		hexData.setText("HEX  'h" + addUnderscore(Long.toHexString(rawDecData)));
 		binData.setText("BIN  'b" + addUnderscore(Long.toBinaryString(rawDecData)));
 

@@ -147,13 +147,13 @@ public class DataManipulation {
 		decData = 0;
 
 		if (str.matches("^\'d[0-9]+")) {
-			decData = Long.parseLong(str.substring(2,str.length()));
+			decData = Long.parseUnsignedLong(str.substring(2,str.length()));
 		}
 		else if (str.matches("[0-9]+")) {
-			decData = Long.parseLong(str);
+			decData = Long.parseUnsignedLong(str);
 		}
 		else if (str.matches("^[0-9]{1,4}\'d[0-9]+")) {
-			long fullDecData = Long.parseLong(str.substring(str.indexOf("'")+2,str.length()));
+			long fullDecData = Long.parseUnsignedLong(str.substring(str.indexOf("'")+2,str.length()));
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			decData = dataBitLengthStrip(dataBitLength, fullDecData);
 		}
@@ -168,13 +168,13 @@ public class DataManipulation {
 		str = str.replace("-", "");
 
 		if (str.matches("[0-9]*[a-f]+[0-9a-z]*")){
-			decData = Long.parseLong(str, 16);
+			decData = Long.parseUnsignedLong(str, 16);
 		}
 		else if(str.matches("^0x[0-9a-f]+") | str.matches("^\'h[0-9a-f]+")) {
-			decData = Long.parseLong(str.substring(2,str.length()), 16);
+			decData = Long.parseUnsignedLong(str.substring(2,str.length()), 16);
 		}
 		else if(str.matches("^[0-9]{1,4}\'h[0-9a-f]+")) {
-			long fullDecData = Long.parseLong(str.substring(str.indexOf("'")+2,str.length()), 16);
+			long fullDecData = Long.parseUnsignedLong(str.substring(str.indexOf("'")+2,str.length()), 16);
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			
 			decData = dataBitLengthStrip(dataBitLength, fullDecData);
@@ -191,10 +191,10 @@ public class DataManipulation {
 		str = str.replace("-", "");
 
 		if(str.matches("^\'b[01_-]+")){
-			decData = Long.parseLong(str.substring(2,str.length()), 2);
+			decData = Long.parseUnsignedLong(str.substring(2,str.length()), 2);
 		}
 		else if (str.matches("^[0-9]{1,4}\'b[01]+")) {
-			long fullDecData = Long.parseLong(str.substring(str.indexOf("'")+2,str.length()), 2);
+			long fullDecData = Long.parseUnsignedLong(str.substring(str.indexOf("'")+2,str.length()), 2);
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			
 			decData = dataBitLengthStrip(dataBitLength, fullDecData);

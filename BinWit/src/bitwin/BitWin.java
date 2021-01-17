@@ -1,8 +1,6 @@
 package bitwin;
 import javax.swing.SwingUtilities;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 
 
@@ -12,9 +10,9 @@ public class BitWin {
 		
 		
 		
-		FlatIntelliJLaf.install();
+		FlatLightLaf.install();
 //		try {
-//			UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialLiteTheme()));
+//			UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialOceanicTheme()));
 //		} catch (UnsupportedLookAndFeelException e) {
 //			e.printStackTrace();
 //		}
