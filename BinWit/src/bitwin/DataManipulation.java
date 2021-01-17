@@ -52,6 +52,9 @@ public class DataManipulation {
 		if (hasBitwiseNOT(str)) {
 			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
 		}
+		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 32)) {
+			stringErrorListener.textDetect("Math operation calculation with data bigger than 32bit is not supported");
+		}
 		else {
 			stringErrorListener.textDetect("");
 		}

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.border.EtchedBorder;
@@ -47,7 +46,6 @@ public class BitPanel extends JPanel {
 	public BitPanel(int bitPanelLevel) {
 		this.bitPanelLevel = bitPanelLevel;
 
-//		GridBagConstraints gc = new GridBagConstraints();
 		addLowerBitPanelbtn = new JButton("+");
 		addLowerBitPanelbtn.setPreferredSize(new Dimension(10, 15));
 		addLowerBitPanelbtn.setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
@@ -105,7 +103,7 @@ public class BitPanel extends JPanel {
 					String selectedCellVal = (String) (table63to32.getValueAt(selectedRow, selectedCol));
 
 					if (bitPanelLevel > 1) {
-						System.out.println("Bit Modification is disable");
+						setErrorText("Bit Modification is disable for sub Bit Select Table");
 						return;
 					};
 
@@ -174,7 +172,7 @@ public class BitPanel extends JPanel {
 					String selectedCellVal = (String) (table31to0.getValueAt(selectedRow, selectedCol));
 
 					if (bitPanelLevel > 1) {
-						System.out.println("Bit Modification is disable");
+						setErrorText("Bit Modification is disable for sub Bit Select Table");
 						return;
 					};
 
@@ -198,6 +196,7 @@ public class BitPanel extends JPanel {
 
 		        }
 			}
+
 		});
 		
 		// create bit position bars
@@ -233,6 +232,7 @@ public class BitPanel extends JPanel {
 		tableblank63to32.setFont(new Font(Font.SERIF, Font.PLAIN, 9));
 		
 		
+		// button for create LowerBitPanel
 		addLowerBitPanelbtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -272,6 +272,22 @@ public class BitPanel extends JPanel {
 			bitTableModifiedListener.textDetect(Long.toString(Long.parseUnsignedLong(String.join("", bitList63to0),2)));
 		}
 	}
+	
+	private void setErrorText(String string) {
+		DataManipulation.getInst().setErrorText("Bit Modification is disable for sub Bit Select Table");
+		Thread t1 = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					Thread.sleep(2500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				DataManipulation.getInst().setErrorText("");
+			}
+		});
+		t1.start();
+	}
 
 	private void layoutConfigure() {
 		//Layout
@@ -308,9 +324,10 @@ public class BitPanel extends JPanel {
 		this.rawDecData = rawDecData;
 		
 		String rawDecDataStr = Long.toBinaryString(rawDecData);
+
 		if (rawDecDataStr.length() > 32) {
-			setBitList(Long.toBinaryString(rawDecData).substring(rawDecDataStr.length() - 33, rawDecDataStr.length() - 1 ), bitList31to0);
-			setBitList(Long.toBinaryString(rawDecData).substring(0, rawDecDataStr.length() - 32), bitList63to32);
+			setBitList(rawDecDataStr.substring(rawDecDataStr.length() - 32, rawDecDataStr.length()), bitList31to0);
+			setBitList(rawDecDataStr.substring(0, rawDecDataStr.length() - 32), bitList63to32);
 		}
 		else {
 			setBitList(Long.toBinaryString(rawDecData), bitList31to0);
