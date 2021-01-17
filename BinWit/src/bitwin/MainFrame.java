@@ -1,6 +1,5 @@
 package bitwin;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
@@ -73,8 +72,16 @@ public class MainFrame extends JFrame {
 		add(dataPanel);
 		add(bitPanel);
 		
-		ImageIcon img = new ImageIcon("image/dvtalk.png");
-		setIconImage(img.getImage());
+		java.net.URL imageURL = MainFrame.class.getResource("dvtalk.png");
+		if (imageURL != null) {
+		    ImageIcon icon = new ImageIcon(imageURL);
+		    setIconImage(icon.getImage());
+		}
+		else {
+			System.out.println("NULL ICO");
+		}
+
+//		ImageIcon img = new ImageIcon("image/dvtalk.png");
 		
 	}
 }

@@ -47,8 +47,7 @@ public class DataManipulation {
 			rawData = parsingBinStrtoDecData(str);
 		}
 
-		
-		//error check
+		//error check, current limitation of the app
 		if (hasBitwiseNOT(str)) {
 			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
 		}
@@ -59,7 +58,6 @@ public class DataManipulation {
 			stringErrorListener.textDetect("");
 		}
 		
-		
 		return rawData;
 	}
 	
@@ -68,7 +66,6 @@ public class DataManipulation {
 		ArrayList<String> operationInfo;
 		StringBuilder operationRawDecDataList;
 		calcResult = 0;
-
 
 		operationInfo = getOperandsnOperator(str); // return the operands and operator in a List of Strings
 		operationRawDecDataList = new StringBuilder();
@@ -109,6 +106,7 @@ public class DataManipulation {
 			ScriptEngine engine = manager.getEngineByName("ECMAScript");
 			Object result = null;
 			try {
+//				expression = "BigInt(72057594037927936)+BigInt(2)";
 				result = engine.eval(expression);
 				if (result instanceof Double) {
 					calcResult = ((Double) result).longValue()	;
@@ -119,7 +117,7 @@ public class DataManipulation {
 			} catch (ScriptException e) {
 				System.out.println("WAIT for next operand");
 			}
-//			System.out.println(calcResult);
+			System.out.println(calcResult);
 		}
 
 		return calcResult;
@@ -142,7 +140,6 @@ public class DataManipulation {
 		}
 		
 		if (first_operator_idx == -1) {
-//			System.out.println("NO OPERATOR LEFT");
 			operationInfo.add(str);
 		}
 		else {
