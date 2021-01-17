@@ -94,10 +94,11 @@ public class DataManipulation {
 			try {
 				result = engine.eval(expression);
 				if (result instanceof Double) {
-					calcResult = ((Double) result).intValue()	;
+					calcResult = ((Double) result).longValue()	;
 				}
 				else if (result != null) {
-					calcResult = (Long) result;
+					calcResult = Long.parseLong(result.toString());
+					
 				}
 			} catch (ScriptException e) {
 				System.out.println("WAIT for next operand");
@@ -145,10 +146,10 @@ public class DataManipulation {
 		decData = 0;
 
 		if (str.matches("^\'d[0-9]+")) {
-			decData = Integer.parseInt(str.substring(2,str.length()));
+			decData = Long.parseLong(str.substring(2,str.length()));
 		}
 		else if (str.matches("[0-9]+")) {
-			decData = Integer.parseInt(str);
+			decData = Long.parseLong(str);
 		}
 		else if (str.matches("^[0-9]{1,4}\'d[0-9]+")) {
 			long fullDecData = Long.parseLong(str.substring(str.indexOf("'")+2,str.length()));
@@ -166,10 +167,10 @@ public class DataManipulation {
 		str = str.replace("-", "");
 
 		if (str.matches("[0-9]*[a-f]+[0-9a-z]*")){
-			decData = Integer.parseInt(str, 16);
+			decData = Long.parseLong(str, 16);
 		}
 		else if(str.matches("^0x[0-9a-f]+") | str.matches("^\'h[0-9a-f]+")) {
-			decData = Integer.parseInt(str.substring(2,str.length()), 16);
+			decData = Long.parseLong(str.substring(2,str.length()), 16);
 		}
 		else if(str.matches("^[0-9]{1,4}\'h[0-9a-f]+")) {
 			long fullDecData = Long.parseLong(str.substring(str.indexOf("'")+2,str.length()), 16);
@@ -189,7 +190,7 @@ public class DataManipulation {
 		str = str.replace("-", "");
 
 		if(str.matches("^\'b[01_-]+")){
-			decData = Integer.parseInt(str.substring(2,str.length()), 2);
+			decData = Long.parseLong(str.substring(2,str.length()), 2);
 		}
 		else if (str.matches("^[0-9]{1,4}\'b[01]+")) {
 			long fullDecData = Long.parseLong(str.substring(str.indexOf("'")+2,str.length()), 2);

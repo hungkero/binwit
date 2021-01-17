@@ -51,7 +51,7 @@ public class TextPanel extends JPanel {
 				String textstr = textArea.getText().toLowerCase();
 
 				if (datadetect != null) {
-					int rawDecData = datadetect.getRawDecData(textstr.replace(" ", ""));
+					long rawDecData = datadetect.getRawDecData(textstr.replace(" ", ""));
 
 					if (typingDataString != null) {
 						typingDataString.textDetect(Long.toString(rawDecData));

@@ -18,7 +18,7 @@ import javax.swing.JTable;
 import javax.swing.border.EtchedBorder;
 
 public class BitPanel extends JPanel {
-	private int rawDecData;
+	private long rawDecData;
 	private JTable table;
 	private JTable tableblank;
 	private BitTableModel tableModel;
@@ -196,7 +196,7 @@ public class BitPanel extends JPanel {
 
 	public void setRawDecData(long rawDecData) {
 		this.rawDecData = rawDecData;
-		setBitList(Integer.toBinaryString(rawDecData));
+		setBitList(Long.toBinaryString(rawDecData));
 		getSelectedTableValue();
 		if (lowerBitPanelisEnable) {
 			lowerBitPanel.setRawDecData(selectedBitsforLowerBitPanel);
