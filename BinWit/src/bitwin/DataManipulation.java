@@ -52,8 +52,8 @@ public class DataManipulation {
 		if (hasBitwiseNOT(str)) {
 			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
 		}
-		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 32)) {
-			stringErrorListener.textDetect("Math operation calculation with data bigger than 32bit is not supported");
+		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 52)) {
+			stringErrorListener.textDetect("Math operation calculation with data bit width bigger than 52bit is not supported");
 		}
 		else {
 			stringErrorListener.textDetect("");
@@ -87,7 +87,6 @@ public class DataManipulation {
 				if (prevNotOperation) {
 					// should add special calculation for not operator to care about the bit width of variable when execute NOT operator
 					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr)));
-
 				}
 				else {
 					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr)));
@@ -97,6 +96,8 @@ public class DataManipulation {
 		}
 		
 		String expression = operationRawDecDataList.toString();
+		
+//		System.out.println(expression);
 
 		// manipulate string for exponential operator
 		expression = expression.replace("^", ";"); // change to ; for easier regex
