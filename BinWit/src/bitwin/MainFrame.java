@@ -17,10 +17,8 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		super("BinWit");
-
 		
 		mainText = new TextPanel();
-		mainText.setDatadetect(DataManipulation.getInst());
 
 		dataPanel = new DataPanel();
 
@@ -33,6 +31,7 @@ public class MainFrame extends JFrame {
 				mainText.setText("");
 			}
 		});
+		
 
 		mainText.setFinalStringListener(new StringListener() {
 			@Override
@@ -48,6 +47,13 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
+		DataManipulation.getInst().setStringErrorListener(new StringListener() {
+			@Override
+			public void textDetect(String errorText) {
+				mainText.setErrorText(errorText);
+			}
+		});
+
 		
 		layoutConfigure();
 	}

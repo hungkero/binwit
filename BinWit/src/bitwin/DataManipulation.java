@@ -13,8 +13,10 @@ public class DataManipulation {
 	public final String[] operators = {"+","-","*","/","%","(",")","^","|","&","~","!"};
 	public static DataManipulation dataManipulation;
 	
-	private String data;
-	private DataType dataType;
+	private StringListener stringErrorListener;
+
+//	private String   data;
+//	private DataType dataType;
 
 	public DataManipulation() {
 	}
@@ -33,7 +35,6 @@ public class DataManipulation {
 		rawData = 0;
 		
 		if (hasOperatorChar(str)) {
-//			System.out.println("HASS OPERATOR CHAR ");
 			rawData = calcOperation(str);
 		}
 		else if (isDec(str)) {
@@ -45,6 +46,17 @@ public class DataManipulation {
 		else if (isBin(str)) {
 			rawData = parsingBinStrtoDecData(str);
 		}
+
+		
+		//error check
+		if (hasBitwiseNOT(str)) {
+			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
+		}
+		else {
+			stringErrorListener.textDetect("");
+		}
+		
+		
 		return rawData;
 	}
 	
@@ -54,7 +66,8 @@ public class DataManipulation {
 		StringBuilder operationRawDecDataList;
 		calcResult = 0;
 
-		operationInfo = getOperandsnOperator(str); // return the first operands then operators then 2nd operand then maybe next operator and next operand
+
+		operationInfo = getOperandsnOperator(str); // return the operands and operator in a List of Strings
 		operationRawDecDataList = new StringBuilder();
 		
 		for(String str_itr: operationInfo) {
@@ -92,7 +105,6 @@ public class DataManipulation {
 			ScriptEngine engine = manager.getEngineByName("ECMAScript");
 			Object result = null;
 			try {
-				expression = "1102011433022 | 2";
 				result = engine.eval(expression);
 				if (result instanceof Double) {
 					calcResult = ((Double) result).longValue()	;
@@ -103,7 +115,7 @@ public class DataManipulation {
 			} catch (ScriptException e) {
 				System.out.println("WAIT for next operand");
 			}
-			System.out.println(calcResult);
+//			System.out.println(calcResult);
 		}
 
 		return calcResult;
@@ -147,7 +159,7 @@ public class DataManipulation {
 		decData = 0;
 
 		if (str.matches("^\'d[0-9]+")) {
-			decData = Long.parseUnsignedLong(str.substring(2,str.length()));
+			decData = Long.parseUnsignedLong(str.substring(3,str.length()));
 		}
 		else if (str.matches("[0-9]+")) {
 			decData = Long.parseUnsignedLong(str);
@@ -246,8 +258,14 @@ public class DataManipulation {
 		for (String str_itr: operators) {
 			if (str.contains(str_itr)) {
 				return true;
-
 			}
+		}
+		return false;
+	}
+
+	private boolean hasBitwiseNOT(String str) {
+		if (str.contains("~")  | str.contains("!")) {
+			return true;
 		}
 		return false;
 	}
@@ -270,6 +288,15 @@ public class DataManipulation {
 		decStripped = Long.parseLong(binStrippedStr, 2);
 		
 		return decStripped;
+	}
+
+
+	public void setStringErrorListener(StringListener stringErrorListener) {
+		this.stringErrorListener = stringErrorListener;
+	}
+	
+	public void setErrorText(String str) {
+		stringErrorListener.textDetect(str);
 	}
 	
 		

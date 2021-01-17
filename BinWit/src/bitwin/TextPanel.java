@@ -1,6 +1,7 @@
 package bitwin;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,8 +19,6 @@ public class TextPanel extends JPanel {
 
 	private StringListener finalDataString;
 	private StringListener typingDataString;
-
-	private DataManipulation datadetect;
 
 
 	public TextPanel() {
@@ -49,13 +48,13 @@ public class TextPanel extends JPanel {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				String textstr = textArea.getText().toLowerCase();
+				DataManipulation datadetect = DataManipulation.getInst();
 
 				if (datadetect != null) {
 					long rawDecData = datadetect.getRawDecData(textstr.replace(" ", ""));
 
 					if (typingDataString != null) {
 						typingDataString.textDetect(Long.toString(rawDecData));
-						prevTextArea.setText("");
 					}
 					
 					// check if character is allow based on the char before --> need to add later
@@ -74,10 +73,6 @@ public class TextPanel extends JPanel {
 	}
 
 
-	public void setDatadetect(DataManipulation mainText) {
-		this.datadetect = mainText;
-	}
-
 	public void setFinalStringListener(StringListener stringListener2) {
 		this.finalDataString = stringListener2;
 	}
@@ -93,9 +88,15 @@ public class TextPanel extends JPanel {
 	public void setText(String str){
 		String textData = textArea.getText();
 		if (textData.length()>0) {
+			prevTextArea.setForeground(Color.BLACK);
 			prevTextArea.setText("previous input : "+ textData);
 		}
 		textArea.setText(str);
+	}
+	
+	public void setErrorText(String str) {
+		prevTextArea.setForeground(Color.RED);
+		prevTextArea.setText(str);
 	}
 	
 	public void appendText(String text) {
