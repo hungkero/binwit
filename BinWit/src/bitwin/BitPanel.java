@@ -72,7 +72,10 @@ public class BitPanel extends JPanel {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+				getSelectedTableValue();
+				if (lowerBitPanelisEnable) {
+					lowerBitPanel.setRawDecData(selectedDataforLowerBitPanel);
+				}
 			}
 			
 			@Override
@@ -96,8 +99,37 @@ public class BitPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
+				if(e.getClickCount()==2){
+					int selectedCol = table63to32.getSelectedColumn();
+					int selectedRow = table63to32.getSelectedRow();
+					String selectedCellVal = (String) (table63to32.getValueAt(selectedRow, selectedCol));
+
+					if (bitPanelLevel > 1) {
+						System.out.println("Bit Modification is disable");
+						return;
+					};
+
+					if (selectedCellVal == " ") return; 
+
+					if (Integer.parseInt(selectedCellVal) == 0) {
+						selectedCellVal = "1";
+					}
+					else if (Integer.parseInt(selectedCellVal) == 1) {
+						selectedCellVal = "0";
+					}
+					int selectedCellLocation = selectedCol + 32*selectedRow;
+					selectedCellLocation = selectedCellLocation - (selectedCellLocation)/5;
+					bitList63to32.set(selectedCellLocation , selectedCellVal);
+
+					//update table
+					tableModel63to32.setBitList(parsingBitList(bitList63to32));
+					table63to32.updateUI();
+					
+					notifyTableModifiedListener();
+		        }
 				
 			}
+
 		});
 
 		// table for 31 to 0 bit
@@ -162,10 +194,7 @@ public class BitPanel extends JPanel {
 					tableModel31to0.setBitList(parsingBitList(bitList31to0));
 					table31to0.updateUI();
 					
-					//notify upper data panel
-					if (bitTableModifiedListener != null) {
-						bitTableModifiedListener.textDetect(Integer.toString(Integer.parseUnsignedInt(String.join("", bitList31to0),2)));
-					}
+					notifyTableModifiedListener();
 
 		        }
 			}
@@ -233,6 +262,15 @@ public class BitPanel extends JPanel {
 		});
 		
 		layoutConfigure();
+	}
+
+	private void notifyTableModifiedListener() {
+		if (bitTableModifiedListener != null) {
+			ArrayList<String> bitList63to0 = new ArrayList<String>(64);
+			bitList63to0.addAll(bitList63to32);
+			bitList63to0.addAll(bitList31to0);
+			bitTableModifiedListener.textDetect(Long.toString(Long.parseUnsignedLong(String.join("", bitList63to0),2)));
+		}
 	}
 
 	private void layoutConfigure() {
@@ -312,23 +350,30 @@ public class BitPanel extends JPanel {
 	}
 	
 	public void getSelectedTableValue() {
+		StringBuilder selectedBits = new StringBuilder();
+
+		if (table63to32.getSelectedColumn() != -1) { 
+			int[] selectedCols = table63to32.getSelectedColumns();
+			int   selectedRow =  table63to32.getSelectedRow();
+
+			for (int i: selectedCols) {
+				selectedBits.append((String) table63to32.getValueAt(selectedRow, i));
+			}
+		}	
+
 		if (table31to0.getSelectedColumn() != -1) { 
 			int[] selectedCols = table31to0.getSelectedColumns();
 			int   selectedRow =  table31to0.getSelectedRow();
-			
-			StringBuilder selectedBits = new StringBuilder();
 
 			for (int i: selectedCols) {
 				selectedBits.append((String) table31to0.getValueAt(selectedRow, i));
 			}
-			
-			String selectBitsStr = selectedBits.toString().replace(" " , "");
-			
-			if (selectBitsStr.length() > 0 ) {
-				selectedDataPanel.setRawDecData(Long.parseLong(selectBitsStr, 2));
-				selectedDataforLowerBitPanel = Long.parseLong(selectBitsStr, 2);
-			}
 		}	
+		String selectBitsStr = selectedBits.toString().replace(" " , "");
+		if (selectBitsStr.length() > 0 ) {
+			selectedDataPanel.setRawDecData(Long.parseLong(selectBitsStr, 2));
+			selectedDataforLowerBitPanel = Long.parseLong(selectBitsStr, 2);
+		}
 	}
 
 	public void setBitTableModified(StringListener bitTableModified) {
