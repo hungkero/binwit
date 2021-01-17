@@ -36,13 +36,29 @@ public class DataPanel extends JPanel {
 	}
 
 	private void updateDataLabel() {
-		decData.setText("DEC   " +Long.toString(rawDecData));
-		hexData.setText("HEX   " +Long.toHexString(rawDecData));
-		binData.setText("BIN   " +Long.toBinaryString(rawDecData));
+		decData.setText("DEC  'd" + Long.toString(rawDecData));
+		hexData.setText("HEX  'h" + addUnderscore(Long.toHexString(rawDecData)));
+		binData.setText("BIN  'b" + addUnderscore(Long.toBinaryString(rawDecData)));
 
 		decData.updateUI();
 		hexData.updateUI();
 		binData.updateUI();
+	}
+	
+	private String addUnderscore(String str) {
+		StringBuilder stringBuilder = new StringBuilder();
+
+		for (int i=(str.length()-1); i >= 0; i--) {
+			stringBuilder.append(str.charAt(i));
+			if ((str.length()-i)%4==0 & (i!= (str.length()-1)) ) {
+				stringBuilder.append("_");
+			}
+		}
+		if (stringBuilder.lastIndexOf("_") == (stringBuilder.length()-1)) {
+			stringBuilder.deleteCharAt(stringBuilder.length()-1);
+		}
+		return stringBuilder.reverse().toString();
+
 	}
 
 	public DataPanel() {
