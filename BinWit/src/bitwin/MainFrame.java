@@ -8,8 +8,6 @@ import javax.swing.JFrame;
 
 public class MainFrame extends JFrame {
 	
-	public enum DataType {DEC, HEX, BIN, OPERATION, ERROR};
-
 	private TextPanel mainText;
 	private DataPanel dataPanel;
 	private BitPanel  bitPanel;

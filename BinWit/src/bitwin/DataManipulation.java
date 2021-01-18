@@ -69,11 +69,12 @@ public class DataManipulation {
 		calcResult = 0;
 
 		operationInfo = getOperandsnOperator(str); // return the operands and operator in a List of Strings
+
 		operationRawDecDataList = new StringBuilder();
 		
 		for(String str_itr: operationInfo) {
-//			String str_64bit = str_itr+"n";
 			boolean prevNotOperation = false;
+
 			if (hasOperatorChar(str_itr)) {
 				if (str_itr.contains("~") | str_itr.contains("!")) {
 					prevNotOperation = true;
@@ -101,8 +102,8 @@ public class DataManipulation {
 		// manipulate string for exponential operator
 //		expression = expression.replace("^", ";"); // change to ; for easier regex
 //		expression = expression.replace("**", ";");
-		expression = expression.replace("^", "**"); // change to ; for easier regex
 //		expression = expression.replaceAll("([0-9]+);([0-9]+)", "Math.pow($1,$2)");
+		expression = expression.replaceAll("\\^", "**"); 
 		
 		
 		if (!hasUnCloseBrackets(expression)) {
@@ -135,16 +136,22 @@ public class DataManipulation {
 
 	private ArrayList<String> getOperandsnOperator(String str) {
 		ArrayList<String> operationInfo = new ArrayList<>();
-		int first_operator_idx = 0;
+		int first_operator_idx = -1;
+		int smallest_operator_idx = -1;
 		
 		for(String str_itr: operators) {
 			first_operator_idx = str.indexOf(str_itr);
+
 			if (first_operator_idx != -1) {
-				break;
-			}
+				if ((smallest_operator_idx == -1) | (first_operator_idx < smallest_operator_idx)) {
+					smallest_operator_idx = first_operator_idx;
+				}
+			} 
 		}
+		first_operator_idx = smallest_operator_idx;
 		
 		if (first_operator_idx == -1) {
+			// str does not has operators
 			operationInfo.add(str);
 		}
 		else {
@@ -165,7 +172,7 @@ public class DataManipulation {
 		decData = 0;
 
 		if (str.matches("^\'d[0-9]+")) {
-			decData = Long.parseUnsignedLong(str.substring(3,str.length()));
+			decData = Long.parseUnsignedLong(str.substring(2,str.length()));
 		}
 		else if (str.matches("[0-9]+")) {
 			decData = Long.parseUnsignedLong(str);
