@@ -1,17 +1,18 @@
 package bitwin;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
+import javax.script.Bindings;
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import bitwin.MainFrame.DataType;
-
 public class DataManipulation {
 	
 	public final String[] operators = {"+","-","*","/","%","(",")","^","|","&","~","!"};
-	public static DataManipulation dataManipulation;
+	private static DataManipulation dataManipulation;
 	
 	private StringListener stringErrorListener;
 
@@ -51,15 +52,15 @@ public class DataManipulation {
 		if (hasBitwiseNOT(str)) {
 			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
 		}
-		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 52)) {
-			stringErrorListener.textDetect("Math operation calculation with data bit width bigger than 52bit is not supported");
-		}
+//		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 52)) {
+//			stringErrorListener.textDetect("Math operation calculation with data bit width bigger than 52bit is not supported");
+//		}
 		else {
 			stringErrorListener.textDetect("");
 		}
 		
 		return rawData;
-	}
+	} 
 	
 	private long calcOperation(String str) {
 		long calcResult;
@@ -71,6 +72,7 @@ public class DataManipulation {
 		operationRawDecDataList = new StringBuilder();
 		
 		for(String str_itr: operationInfo) {
+//			String str_64bit = str_itr+"n";
 			boolean prevNotOperation = false;
 			if (hasOperatorChar(str_itr)) {
 				if (str_itr.contains("~") | str_itr.contains("!")) {
@@ -83,10 +85,10 @@ public class DataManipulation {
 			else {
 				if (prevNotOperation) {
 					// should add special calculation for not operator to care about the bit width of variable when execute NOT operator
-					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr)));
+					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr))+"n");
 				}
 				else {
-					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr)));
+					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr))+"n");
 				}
 				prevNotOperation = false;
 			}
@@ -97,16 +99,19 @@ public class DataManipulation {
 //		System.out.println(expression);
 
 		// manipulate string for exponential operator
-		expression = expression.replace("^", ";"); // change to ; for easier regex
-		expression = expression.replace("**", ";");
-		expression = expression.replaceAll("([0-9]+);([0-9]+)", "Math.pow($1,$2)");
+//		expression = expression.replace("^", ";"); // change to ; for easier regex
+//		expression = expression.replace("**", ";");
+		expression = expression.replace("^", "**"); // change to ; for easier regex
+//		expression = expression.replaceAll("([0-9]+);([0-9]+)", "Math.pow($1,$2)");
+		
 		
 		if (!hasUnCloseBrackets(expression)) {
 			ScriptEngineManager manager = new ScriptEngineManager();
-			ScriptEngine engine = manager.getEngineByName("ECMAScript");
+			ScriptEngine engine = manager.getEngineByName("graal.js");
 			Object result = null;
 			try {
-//				expression = "BigInt(72057594037927936)+BigInt(2)";
+                //expression = "72057594037927936n+2n";
+//				expression = "2**2";
 				result = engine.eval(expression);
 				if (result instanceof Double) {
 					calcResult = ((Double) result).longValue()	;
@@ -117,7 +122,7 @@ public class DataManipulation {
 			} catch (ScriptException e) {
 				System.out.println("WAIT for next operand");
 			}
-			System.out.println(calcResult);
+//			System.out.println(calcResult);
 		}
 
 		return calcResult;
