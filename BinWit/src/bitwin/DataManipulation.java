@@ -225,7 +225,7 @@ public class DataManipulation {
 	}
 
 	public boolean isHex (String str) {
-		if(str.matches("[0-9]*[a-f]+[0-9a-z]*")
+		if(str.matches("[0-9]*[a-f]+[0-9a-z_]*")
 				| str.matches("^0x[0-9a-f_-]+")
 				| str.matches("^\'h[0-9a-f_-]+")
 				| str.matches("^[0-9]{1,3}\'h[0-9a-f_-]+")) {

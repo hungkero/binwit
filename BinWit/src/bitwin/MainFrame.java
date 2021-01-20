@@ -1,5 +1,6 @@
 package bitwin;
 
+import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
@@ -58,17 +59,15 @@ public class MainFrame extends JFrame {
 		layoutConfigure();
 	}
 	
+	
+	
 
-	private void layoutConfigure() {
+	public void layoutConfigure() {
 
-		//Layout manager
-		setSize(700,450);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
 		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
+		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
 		add(mainText);
 		add(dataPanel);
 		add(bitPanel);
@@ -82,7 +81,11 @@ public class MainFrame extends JFrame {
 			System.out.println("NULL ICO");
 		}
 
-//		ImageIcon img = new ImageIcon("image/dvtalk.png");
+		mainText.setBackground(new Color(0, 0, 0, 1));
+		//Layout manager
+		setSize(700,450);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBackground(new Color(0, 0, 0, 0.8f));
 		
 	}
 }

@@ -1,4 +1,5 @@
 package bitwin;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.formdev.flatlaf.FlatLightLaf;
@@ -14,12 +15,19 @@ public class BitWin {
 //		} catch (UnsupportedLookAndFeelException e) {
 //			e.printStackTrace();
 //		}
+
+//        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        GraphicsDevice gd = ge.getDefaultScreenDevice();
+
+        JFrame.setDefaultLookAndFeelDecorated(true);
+
 		
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				new MainFrame();
+                MainFrame mainFrame = new MainFrame();
+                mainFrame.setVisible(true);
 			}
 			
 		});
