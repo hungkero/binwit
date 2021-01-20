@@ -8,8 +8,6 @@ public class BitWin {
 
 	public static void main(String[] args) {
 		
-		
-		
 		FlatLightLaf.install();
 //		try {
 //			UIManager.setLookAndFeel(new MaterialLookAndFeel(new MaterialOceanicTheme()));
@@ -22,7 +20,6 @@ public class BitWin {
 			@Override
 			public void run() {
 				new MainFrame();
-
 			}
 			
 		});

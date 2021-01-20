@@ -52,6 +52,9 @@ public class MainFrame extends JFrame {
 		});
 
 		
+		// init
+		dataPanel.setRawDecData(DataManipulation.getInst().getRawDecData("0+0"));
+		
 		layoutConfigure();
 	}
 	

@@ -1,10 +1,7 @@
 package bitwin;
 
 import java.util.ArrayList;
-import java.util.function.Predicate;
 
-import javax.script.Bindings;
-import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -15,9 +12,6 @@ public class DataManipulation {
 	private static DataManipulation dataManipulation;
 	
 	private StringListener stringErrorListener;
-
-//	private String   data;
-//	private DataType dataType;
 
 	public DataManipulation() {
 	}
@@ -55,6 +49,9 @@ public class DataManipulation {
 //		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 52)) {
 //			stringErrorListener.textDetect("Math operation calculation with data bit width bigger than 52bit is not supported");
 //		}
+		else if (str.contains("^")) {
+			stringErrorListener.textDetect("^ is bitwise XOR operator, use ** for exponential operator i.e 2**10 = 1024");
+		}
 		else {
 			stringErrorListener.textDetect("");
 		}
@@ -103,7 +100,7 @@ public class DataManipulation {
 //		expression = expression.replace("^", ";"); // change to ; for easier regex
 //		expression = expression.replace("**", ";");
 //		expression = expression.replaceAll("([0-9]+);([0-9]+)", "Math.pow($1,$2)");
-		expression = expression.replaceAll("\\^", "**"); 
+//		expression = expression.replaceAll("\\^", "**"); 
 		
 		
 		if (!hasUnCloseBrackets(expression)) {
