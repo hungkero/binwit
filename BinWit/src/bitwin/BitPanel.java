@@ -278,46 +278,6 @@ public class BitPanel extends JPanel {
 		
 	}
 
-	protected void updateBitRangetoBlankTable() {
-		if (table63to32.getSelectedColumn() != -1) { 
-			initBlankList63to32();
-			int[] selectedCols = table63to32.getSelectedColumns();
-			
-			int upperSelectedBit = selectedCols[0];
-			int lowerSelectedBit = selectedCols[selectedCols.length -1];
-			upperSelectedBit = upperSelectedBit - upperSelectedBit/5;
-			lowerSelectedBit = lowerSelectedBit - lowerSelectedBit/5;
-			int upperBit = 63 - upperSelectedBit;
-			int lowerBit = 63 - lowerSelectedBit;
-			
-			bitListblank63to32.set(upperSelectedBit, Integer.toString(upperBit));
-			bitListblank63to32.set(lowerSelectedBit, Integer.toString(lowerBit) );
-			
-			tableModelblank63to32.setBitList(parsingBitList(bitListblank63to32));
-			tableblank63to32.updateUI();
-
-		}	
-
-		if (table31to0.getSelectedColumn() != -1) { 
-			initBlankList31to0();
-			int[] selectedCols = table31to0.getSelectedColumns();
-			
-			int upperSelectedBit = selectedCols[0];
-			int lowerSelectedBit = selectedCols[selectedCols.length -1];
-			upperSelectedBit = upperSelectedBit - upperSelectedBit/5;
-			lowerSelectedBit = lowerSelectedBit - lowerSelectedBit/5;
-			int upperBit = 31 - upperSelectedBit;
-			int lowerBit = 31 - lowerSelectedBit;
-			
-			bitListblank31to0.set(upperSelectedBit, Integer.toString(upperBit));
-			bitListblank31to0.set(lowerSelectedBit, Integer.toString(lowerBit) );
-			
-			tableModelblank31to0.setBitList(parsingBitList(bitListblank31to0));
-			tableblank31to0.updateUI();
-
-		}	
-		
-	}
 
 	private void notifyTableModifiedListener() {
 		if (bitTableModifiedListener != null) {
@@ -447,6 +407,48 @@ public class BitPanel extends JPanel {
 			selectedDataforLowerBitPanel = Long.parseLong(selectBitsStr, 2);
 		}
 	}
+	
+	protected void updateBitRangetoBlankTable() {
+		if (table63to32.getSelectedColumn() != -1) { 
+			initBlankList63to32();
+			int[] selectedCols = table63to32.getSelectedColumns();
+			
+			int upperSelectedBit = selectedCols[0];
+			int lowerSelectedBit = selectedCols[selectedCols.length -1];
+			upperSelectedBit = upperSelectedBit - upperSelectedBit/5;
+			lowerSelectedBit = lowerSelectedBit - lowerSelectedBit/5;
+			int upperBit = 63 - upperSelectedBit;
+			int lowerBit = 63 - lowerSelectedBit;
+			
+			if (upperSelectedBit < 32) bitListblank63to32.set(upperSelectedBit, Integer.toString(upperBit));
+			if (lowerSelectedBit < 32) bitListblank63to32.set(lowerSelectedBit, Integer.toString(lowerBit) );
+			
+			tableModelblank63to32.setBitList(parsingBitList(bitListblank63to32));
+			tableblank63to32.updateUI();
+
+		}	
+
+		if (table31to0.getSelectedColumn() != -1) { 
+			initBlankList31to0();
+			int[] selectedCols = table31to0.getSelectedColumns();
+			
+			int upperSelectedBit = selectedCols[0];
+			int lowerSelectedBit = selectedCols[selectedCols.length -1];
+			upperSelectedBit = upperSelectedBit - upperSelectedBit/5;
+			lowerSelectedBit = lowerSelectedBit - lowerSelectedBit/5;
+			int upperBit = 31 - upperSelectedBit;
+			int lowerBit = 31 - lowerSelectedBit;
+			
+			if (upperSelectedBit < 32) bitListblank31to0.set(upperSelectedBit, Integer.toString(upperBit));
+			if (lowerSelectedBit < 32) bitListblank31to0.set(lowerSelectedBit, Integer.toString(lowerBit) );
+			
+			tableModelblank31to0.setBitList(parsingBitList(bitListblank31to0));
+			tableblank31to0.updateUI();
+
+		}	
+		
+	}
+	
 
 	public void setBitTableModified(StringListener bitTableModified) {
 		this.bitTableModifiedListener = bitTableModified;
