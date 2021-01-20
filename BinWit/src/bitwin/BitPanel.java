@@ -71,6 +71,7 @@ public class BitPanel extends JPanel {
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 				getSelectedTableValue();
+				updateBitRangetoBlankTable();
 				if (lowerBitPanelisEnable) {
 					lowerBitPanel.setRawDecData(selectedDataforLowerBitPanel);
 				}
@@ -140,6 +141,7 @@ public class BitPanel extends JPanel {
 		table31to0.addMouseListener(new MouseListener() {
 			public void mouseReleased(MouseEvent e) {
 				getSelectedTableValue();
+				updateBitRangetoBlankTable();
 				if (lowerBitPanelisEnable) {
 					lowerBitPanel.setRawDecData(selectedDataforLowerBitPanel);
 				}
@@ -201,14 +203,7 @@ public class BitPanel extends JPanel {
 		
 		// create bit position bars
 		bitListblank31to0 = new ArrayList<String>();
-		for (int i = 0; i< 32; i++) {
-			if ( (i %4)	== 0) {
-				bitListblank31to0.add(Integer.toString(31-i));
-			}
-			else {
-				bitListblank31to0.add(" ");
-			}
-		}
+		initBlankList31to0();
 		tableModelblank31to0 = new BitTableModel(parsingBitList(bitListblank31to0));
 		tableblank31to0 = new JTable(tableModelblank31to0);	
 		tableblank31to0.setCellSelectionEnabled(false);
@@ -217,14 +212,7 @@ public class BitPanel extends JPanel {
 		
 		
 		bitListblank63to32 = new ArrayList<String>();
-		for (int i = 32; i< 64; i++) {
-			if ( (i %4)	== 0) {
-				bitListblank63to32.add(Integer.toString(63-(i-32)));
-			}
-			else {
-				bitListblank63to32.add(" ");
-			}
-		}
+		initBlankList63to32();
 		tableModelblank63to32 = new BitTableModel(parsingBitList(bitListblank63to32));
 		tableblank63to32 = new JTable(tableModelblank63to32);	
 		tableblank63to32.setCellSelectionEnabled(false);
@@ -264,6 +252,73 @@ public class BitPanel extends JPanel {
 		layoutConfigure();
 	}
 
+	private void initBlankList63to32() {
+		bitListblank63to32.clear();
+		for (int i = 32; i< 64; i++) {
+			if ( (i %4)	== 0) {
+				bitListblank63to32.add(Integer.toString(63-(i-32)));
+			}
+			else {
+				bitListblank63to32.add(" ");
+			}
+		}
+		
+	}
+
+	private void initBlankList31to0() {
+		bitListblank31to0.clear();
+		for (int i = 0; i< 32; i++) {
+			if ( (i %4)	== 0) {
+				bitListblank31to0.add(Integer.toString(31-i));
+			}
+			else {
+				bitListblank31to0.add(" ");
+			}
+		}
+		
+	}
+
+	protected void updateBitRangetoBlankTable() {
+		if (table63to32.getSelectedColumn() != -1) { 
+			initBlankList63to32();
+			int[] selectedCols = table63to32.getSelectedColumns();
+			
+			int upperSelectedBit = selectedCols[0];
+			int lowerSelectedBit = selectedCols[selectedCols.length -1];
+			upperSelectedBit = upperSelectedBit - upperSelectedBit/5;
+			lowerSelectedBit = lowerSelectedBit - lowerSelectedBit/5;
+			int upperBit = 63 - upperSelectedBit;
+			int lowerBit = 63 - lowerSelectedBit;
+			
+			bitListblank63to32.set(upperSelectedBit, Integer.toString(upperBit));
+			bitListblank63to32.set(lowerSelectedBit, Integer.toString(lowerBit) );
+			
+			tableModelblank63to32.setBitList(parsingBitList(bitListblank63to32));
+			tableblank63to32.updateUI();
+
+		}	
+
+		if (table31to0.getSelectedColumn() != -1) { 
+			initBlankList31to0();
+			int[] selectedCols = table31to0.getSelectedColumns();
+			
+			int upperSelectedBit = selectedCols[0];
+			int lowerSelectedBit = selectedCols[selectedCols.length -1];
+			upperSelectedBit = upperSelectedBit - upperSelectedBit/5;
+			lowerSelectedBit = lowerSelectedBit - lowerSelectedBit/5;
+			int upperBit = 31 - upperSelectedBit;
+			int lowerBit = 31 - lowerSelectedBit;
+			
+			bitListblank31to0.set(upperSelectedBit, Integer.toString(upperBit));
+			bitListblank31to0.set(lowerSelectedBit, Integer.toString(lowerBit) );
+			
+			tableModelblank31to0.setBitList(parsingBitList(bitListblank31to0));
+			tableblank31to0.updateUI();
+
+		}	
+		
+	}
+
 	private void notifyTableModifiedListener() {
 		if (bitTableModifiedListener != null) {
 			ArrayList<String> bitList63to0 = new ArrayList<String>(64);
@@ -275,7 +330,7 @@ public class BitPanel extends JPanel {
 	
 	private void setErrorText(String string) {
 		DataManipulation.getInst().setErrorText("Bit Modification is disable for sub Bit Select Table");
-		Thread t1 = new Thread(new Runnable() {
+		Thread t1 = new Thread(new Runnable() { 
 			@Override
 			public void run() {
 				try {
