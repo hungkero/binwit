@@ -1,6 +1,5 @@
 package bitwin;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,8 +14,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
 
 public class BitPanel extends JPanel {
 	private long rawDecData;
@@ -44,6 +41,7 @@ public class BitPanel extends JPanel {
 	private ArrayList<String> bitListblank63to32;
 	
 	private StringListener bitTableModifiedListener;
+	private BitPanelUpdateListener bitPanelLevelListener;
 
 	public BitPanel(int bitPanelLevel) {
 		this.bitPanelLevel = bitPanelLevel;
@@ -228,21 +226,24 @@ public class BitPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (lowerBitPanelisEnable == false ) {
 					lowerBitPanel = new BitPanel(bitPanelLevel+1);
-					add(lowerBitPanel, BorderLayout.SOUTH);
 					lowerBitPanel.setRawDecData(selectedDataforLowerBitPanel);
+					lowerBitPanel.setBitPanelLevelListener(bitPanelLevelListener);
 
 					addLowerBitPanelbtn.setText("-");
 					lowerBitPanelisEnable = true;
+					bitPanelLevelListener.lowerBitPanelHandle(lowerBitPanel, lowerBitPanelisEnable);
 					repaint();
 				} else {
 					try {
-						remove(lowerBitPanel);
-						revalidate();
-						repaint();
+//						remove(lowerBitPanel);
+//						revalidate();
+//						repaint();
+
 						lowerBitPanel.finalize();
 
 						addLowerBitPanelbtn.setText("+");
 						lowerBitPanelisEnable = false;
+						bitPanelLevelListener.lowerBitPanelHandle(lowerBitPanel, lowerBitPanelisEnable);
 					} catch (Throwable e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -447,10 +448,11 @@ public class BitPanel extends JPanel {
 				add(tableblank63to32);
 				add(table31to0);
 				add(tableblank31to0);
-				table31to0.setBackground(Color.LIGHT_GRAY);
-				table63to32.setBackground(Color.LIGHT_GRAY);
-				tableblank31to0.setBackground(Color.LIGHT_GRAY);
-				tableblank63to32.setBackground(Color.LIGHT_GRAY);
+				table31to0.setBackground(Color.WHITE);
+				table63to32.setBackground(Color.WHITE);
+				tableblank31to0.setBackground(Color.WHITE);
+				tableblank63to32.setBackground(Color.WHITE);
+				setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
 			}
 
 		}
@@ -478,5 +480,13 @@ public class BitPanel extends JPanel {
 		add(new TablePanel());
 		add(new DataPanelandExpandButton());
 		
+	}
+
+	public void setBitPanelLevelListener(BitPanelUpdateListener bitPanelLevelListener) {
+		this.bitPanelLevelListener = bitPanelLevelListener;
+	}
+
+	public int getBitPanelLevel() {
+		return bitPanelLevel;
 	}
 }

@@ -2,6 +2,8 @@ package bitwin;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.nio.file.DirectoryStream.Filter;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -66,6 +68,8 @@ public class MainFrame extends JFrame {
 
 	public void layoutConfigure() {
 
+        ArrayList<BitPanel> lowerBitPanels = new ArrayList<BitPanel>();
+
 		java.net.URL imageURL = MainFrame.class.getResource("dvtalk.png");
 		if (imageURL != null) {
 		    ImageIcon icon = new ImageIcon(imageURL);
@@ -77,8 +81,9 @@ public class MainFrame extends JFrame {
 
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		
-		mainText.setPreferredSize(new Dimension(this.getWidth(), 150));
+		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
 		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
+		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 160));
 
 		add(mainText);
 		add(dataPanel);
@@ -94,9 +99,35 @@ public class MainFrame extends JFrame {
 		bitPanel.setBackground(new Color(1, 1, 1, 1));
 
 		//Layout manager
-		setSize(700,450);
+		setSize(700, 120+120+180+lowerBitPanels.size()*180);
+		bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() {
+			
+			@Override
+			public void lowerBitPanelHandle(BitPanel bitPanel, boolean newAdd) {
+				if (newAdd == true) {
+					add(bitPanel);
+					lowerBitPanels.add(bitPanel);
+					bitPanel.setBorder(outerBorder);
+					bitPanel.setBackground(new Color(1, 1, 1, 1));
+				}
+				else {
+					int bitPanelLeveltoRemove = bitPanel.getBitPanelLevel();
+					for (BitPanel bitPanel_itr: lowerBitPanels) {
+						if (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove ) {
+							remove(bitPanel_itr);
+							revalidate();
+						}
+					}
+
+					lowerBitPanels.removeIf(bitPanel_itr -> (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove)	);
+				}
+				Dimension dm = getSize();
+				setSize(new Dimension(dm.width, 120+120+180+lowerBitPanels.size()*180));
+				repaint();
+			}
+		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBackground(new Color(1,1,1,0.932f));
+		setBackground(new Color(0.98f,0.98f,1,0.952f));
 		
 	}
 }
