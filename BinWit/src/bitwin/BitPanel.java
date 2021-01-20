@@ -1,6 +1,7 @@
 package bitwin;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -14,6 +15,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
 public class BitPanel extends JPanel {
@@ -304,28 +306,7 @@ public class BitPanel extends JPanel {
 		t1.start();
 	}
 
-	private void layoutConfigure() {
-		//Layout
-
-		setBorder(BorderFactory.createCompoundBorder( BorderFactory.createEmptyBorder(0,7,7,11)	, BorderFactory.createEtchedBorder(EtchedBorder.LOWERED)));
-		setLayout(new BorderLayout());
-
-		add(selectedDataPanel, BorderLayout.CENTER);
-		add(addLowerBitPanelbtn, BorderLayout.EAST);
-		addLowerBitPanelbtn.setPreferredSize(new Dimension(40, 5));
-		
-		class TablePanel extends JPanel {
-			public TablePanel() {
-				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-				add(table63to32);
-				add(tableblank63to32);
-				add(table31to0);
-				add(tableblank31to0);
-			}
-		}
-		add(new TablePanel(), BorderLayout.NORTH);
-		
-	}
+	
 
 	private ArrayList<String> initBitList(ArrayList<String> list) {
 		list.clear();
@@ -452,5 +433,50 @@ public class BitPanel extends JPanel {
 
 	public void setBitTableModified(StringListener bitTableModified) {
 		this.bitTableModifiedListener = bitTableModified;
+	}
+	
+	
+	private void layoutConfigure() {
+
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+		class TablePanel extends JPanel {
+			public TablePanel() {
+				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+				add(table63to32);
+				add(tableblank63to32);
+				add(table31to0);
+				add(tableblank31to0);
+				table31to0.setBackground(Color.LIGHT_GRAY);
+				table63to32.setBackground(Color.LIGHT_GRAY);
+				tableblank31to0.setBackground(Color.LIGHT_GRAY);
+				tableblank63to32.setBackground(Color.LIGHT_GRAY);
+			}
+
+		}
+		
+		class DataPanelandExpandButton extends JPanel{
+			public DataPanelandExpandButton() {
+				setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+				add(selectedDataPanel);
+
+				class LowerBitPanelButton extends JPanel {
+					public LowerBitPanelButton() {
+						setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+						add(addLowerBitPanelbtn);
+						addLowerBitPanelbtn.setPreferredSize(new Dimension(40, 5));
+						addLowerBitPanelbtn.setBackground(Color.LIGHT_GRAY);
+						addLowerBitPanelbtn.setForeground(Color.BLACK);
+						addLowerBitPanelbtn.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+					}
+					
+				}
+				add(new LowerBitPanelButton());
+			}
+		}
+
+		add(new TablePanel());
+		add(new DataPanelandExpandButton());
+		
 	}
 }

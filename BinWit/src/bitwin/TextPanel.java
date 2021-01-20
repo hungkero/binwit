@@ -24,20 +24,12 @@ public class TextPanel extends JPanel {
 	public TextPanel() {
 		textArea = new JTextArea(this.getWidth(), this.getHeight());
 		prevTextArea = new JTextPane();
-
-		setLayout(new BorderLayout());
-		add(new JScrollPane(textArea), BorderLayout.CENTER);
-		add(new JScrollPane(prevTextArea), BorderLayout.SOUTH);
 		
 		prevTextArea.setEditable(false);
 		
-		Border innerBorder = BorderFactory.createTitledBorder("");
-		Border outerBorder = BorderFactory.createEmptyBorder(7,7,7,11);
-//		setBorder(BorderFactory.createCompoundBorder(outerBorder, innerBorder));
-		setBorder(BorderFactory.createCompoundBorder(outerBorder, BorderFactory.createEtchedBorder()));
-		
 		setFont(new Font(Font.SANS_SERIF, Font.ROMAN_BASELINE, 20));
 		
+		layoutConfiure();
 		textArea.addKeyListener(new KeyListener() {
 			
 			@Override
@@ -70,6 +62,15 @@ public class TextPanel extends JPanel {
 			public void keyPressed(KeyEvent e) {
 			}
 		});
+	}
+
+
+	private void layoutConfiure() {
+		setLayout(new BorderLayout());
+		add(new JScrollPane(textArea), BorderLayout.CENTER);
+		add(prevTextArea, BorderLayout.SOUTH);
+
+		textArea.setBorder(BorderFactory.createEtchedBorder());
 	}
 
 

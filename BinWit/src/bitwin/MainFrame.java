@@ -3,9 +3,11 @@ package bitwin;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.border.Border;
 
 public class MainFrame extends JFrame {
 	
@@ -64,14 +66,6 @@ public class MainFrame extends JFrame {
 
 	public void layoutConfigure() {
 
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		
-		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
-		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
-		add(mainText);
-		add(dataPanel);
-		add(bitPanel);
-		
 		java.net.URL imageURL = MainFrame.class.getResource("dvtalk.png");
 		if (imageURL != null) {
 		    ImageIcon icon = new ImageIcon(imageURL);
@@ -81,11 +75,28 @@ public class MainFrame extends JFrame {
 			System.out.println("NULL ICO");
 		}
 
-		mainText.setBackground(new Color(0, 0, 0, 1));
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		
+		mainText.setPreferredSize(new Dimension(this.getWidth(), 150));
+		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
+
+		add(mainText);
+		add(dataPanel);
+		add(bitPanel);
+		
+		Border outerBorder = BorderFactory.createEmptyBorder(10,5,15,5);
+		mainText.setBorder(outerBorder);
+		dataPanel.setBorder(outerBorder);
+		bitPanel.setBorder(outerBorder);
+
+		mainText.setBackground(new Color(1, 1, 1, 1));
+		dataPanel.setBackground(new Color(1, 1, 1, 1));
+		bitPanel.setBackground(new Color(1, 1, 1, 1));
+
 		//Layout manager
 		setSize(700,450);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBackground(new Color(0, 0, 0, 0.8f));
+		setBackground(new Color(1,1,1,0.932f));
 		
 	}
 }

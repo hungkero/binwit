@@ -1,5 +1,6 @@
 package bitwin;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 
@@ -102,27 +104,39 @@ public class DataPanel extends JPanel {
 	}
 
 	private void setDataPanelLayout() {
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		setLayout(new GridBagLayout());
-		GridBagConstraints gc = new GridBagConstraints();
+		decData.setPreferredSize(new Dimension(this.getWidth(), 80));
+		hexData.setPreferredSize(new Dimension(this.getWidth(), 80));
+		binData.setPreferredSize(new Dimension(this.getWidth(), 80));
 		
-		// row 1
-		gc.gridx = 0;
-		gc.gridy = 0;
+		add(decData);
+		add(hexData);
+		add(binData);
 		
-		gc.weighty = 0.1;
-		gc.weightx = 1;
+		Dimension dm = getSize();
+		setPreferredSize(new Dimension((int) dm.getWidth(), 80));
 		
-		gc.fill = GridBagConstraints.HORIZONTAL;
-		gc.anchor = GridBagConstraints.NORTHWEST ;
-		gc.insets = new Insets(0,5,0,30);
-		add(decData, gc);
-		
-		gc.gridy ++;
-		add(hexData, gc);
-
-		gc.gridy ++;
-		add(binData, gc);
+//		setLayout(new GridBagLayout());
+//		GridBagConstraints gc = new GridBagConstraints();
+//		
+//		// row 1
+//		gc.gridx = 0;
+//		gc.gridy = 0;
+//		
+//		gc.weighty = 0.1;
+//		gc.weightx = 1;
+//		
+//		gc.fill = GridBagConstraints.HORIZONTAL;
+//		gc.anchor = GridBagConstraints.NORTHWEST ;
+//		gc.insets = new Insets(0,5,0,30);
+//		add(decData, gc);
+//		
+//		gc.gridy ++;
+//		add(hexData, gc);
+//
+//		gc.gridy ++;
+//		add(binData, gc);
 
 		
 	}
