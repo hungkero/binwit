@@ -23,11 +23,12 @@ public class TextPanel extends JPanel {
 
 	public TextPanel() {
 		textArea = new JTextArea(this.getWidth(), this.getHeight());
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+
 		prevTextArea = new JTextPane();
-		
 		prevTextArea.setEditable(false);
 		
-		setFont(new Font(Font.SANS_SERIF, Font.ROMAN_BASELINE, 20));
 		
 		layoutConfiure();
 		textArea.addKeyListener(new KeyListener() {
@@ -66,11 +67,10 @@ public class TextPanel extends JPanel {
 
 
 	private void layoutConfiure() {
+		setFont(new Font(Font.SANS_SERIF, Font.ROMAN_BASELINE, 20));
 		setLayout(new BorderLayout());
 		add(textArea, BorderLayout.CENTER);
 		add(prevTextArea, BorderLayout.SOUTH);
-		
-
 	}
 
 
