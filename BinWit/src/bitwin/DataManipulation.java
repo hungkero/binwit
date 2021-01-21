@@ -52,6 +52,9 @@ public class DataManipulation {
 		if (str.contains("^")) {
 			stringErrorListener.textDetect("^ is bitwise XOR operator, use ** for exponential operator i.e 2**10 = 1024");
 		}
+		else if (hasOperatorChar(str)) {
+			// place holder for invert operation error checking in calcOperation()
+		}
 		else {
 			stringErrorListener.textDetect("");
 		}
