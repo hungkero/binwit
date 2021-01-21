@@ -45,8 +45,10 @@ public class DataManipulation {
 			rawData = parsingBinStrtoDecData(str);
 		}
 		else {
-			dataInputHasError = true;
-			stringErrorListener.textDetect("Number format ERROR");
+			if (str.length() > 0) {
+				dataInputHasError = true;
+				stringErrorListener.textDetect("Number format ERROR");
+			}
 		}
 
 		//error check, current limitation of the app
