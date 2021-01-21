@@ -44,18 +44,22 @@ public class TextPanel extends JPanel {
 				DataManipulation datadetect = DataManipulation.getInst();
 
 				if (datadetect != null) {
-					long rawDecData = datadetect.getRawDecData(textstr.replace(" ", ""));
+					long rawDecData = datadetect.getRawDecData(textstr.replaceAll("\\s", ""));
 
 					if (typingDataString != null) {
 						typingDataString.textDetect(Long.toString(rawDecData));
 					}
 					
 					// check if character is allow based on the char before --> need to add later
-					if (datadetect.hasUnAllowChar(textstr)) {
-						if (textstr.length() > 0) {
+					if (textstr.length() > 0) {
+						String lastCharacter = textstr.substring(textstr.length()-1);
+						if ((datadetect.hasUnAllowChar(lastCharacter)) 
+								& (!lastCharacter.matches("\\s"))) //whitespace
+						{
 							textArea.setText(textstr.substring(0,textstr.length() - 1));
 						}
 					}
+						
 				}
 			}
 			
