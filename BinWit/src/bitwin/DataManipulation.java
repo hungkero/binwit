@@ -94,6 +94,7 @@ public class DataManipulation {
 			else {
 				if (prevStrIsNotOperation) {
 					if (hasBitWidthNumber(str_itr)) {
+						dataInputHasError = false;
 						stringErrorListener.textDetect("");
 						long decData = getRawDecData(str_itr);
 						int dataBitWidth = Integer.parseInt(str_itr.substring(0,str_itr.indexOf("'")));
@@ -102,7 +103,6 @@ public class DataManipulation {
 						operationRawDecDataList.append(Long.toString(invertDecData)+"n");
 
 						prevStrIsNotOperation = false;
-						dataInputHasError = false;
 					}
 					else {
 						stringErrorListener.textDetect("Number must have bit width to be able to invert i.e : 16'hcafe, 3'b010, 32'd12345 ");
