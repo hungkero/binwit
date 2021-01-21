@@ -67,10 +67,10 @@ public class TextPanel extends JPanel {
 
 	private void layoutConfiure() {
 		setLayout(new BorderLayout());
-		add(new JScrollPane(textArea), BorderLayout.CENTER);
+		add(textArea, BorderLayout.CENTER);
 		add(prevTextArea, BorderLayout.SOUTH);
+		
 
-		textArea.setBorder(BorderFactory.createEtchedBorder());
 	}
 
 

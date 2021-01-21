@@ -452,28 +452,33 @@ public class BitPanel extends JPanel {
 				table63to32.setBackground(Color.WHITE);
 				tableblank31to0.setBackground(Color.WHITE);
 				tableblank63to32.setBackground(Color.WHITE);
-				setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 0));
+				setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 			}
 
 		}
 		
 		class DataPanelandExpandButton extends JPanel{
 			public DataPanelandExpandButton() {
+				Color datapanelColor = selectedDataPanel.getDataTextPaneBackgroundColor();
+
 				setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 				add(selectedDataPanel);
-
+				
 				class LowerBitPanelButton extends JPanel {
 					public LowerBitPanelButton() {
 						setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 						add(addLowerBitPanelbtn);
-						addLowerBitPanelbtn.setPreferredSize(new Dimension(40, 5));
+
+						addLowerBitPanelbtn.setPreferredSize(new Dimension(30, 10));
 						addLowerBitPanelbtn.setBackground(Color.LIGHT_GRAY);
 						addLowerBitPanelbtn.setForeground(Color.BLACK);
-						addLowerBitPanelbtn.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+						addLowerBitPanelbtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,1, datapanelColor.brighter()), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+						setBackground(datapanelColor);
 					}
-					
 				}
+
 				add(new LowerBitPanelButton());
+				setBackground(datapanelColor);
 			}
 		}
 

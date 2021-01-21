@@ -1,5 +1,6 @@
 package bitwin;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -7,10 +8,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.ColorModel;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
+
+import com.formdev.flatlaf.util.ColorFunctions;
 
 public class DataPanel extends JPanel {
 	private JTextPane decData;
@@ -31,6 +35,8 @@ public class DataPanel extends JPanel {
 	private JPanel binPanel;
 	
 	private long rawDecData;
+	
+	private Color dataTextPaneBackgroundColor;
 	
 	public void setRawDecData(long rawDecData) {
 		this.rawDecData = (long) rawDecData;
@@ -82,9 +88,14 @@ public class DataPanel extends JPanel {
 //		hexData = new JLabel();
 //		binData = new JLabel();
 		
-		decData.setBackground(this.getBackground());
-		hexData.setBackground(this.getBackground());
-		binData.setBackground(this.getBackground());
+		Color color = getBackground();
+		int blue = color.getBlue() ;
+		int red =  color.getRed() ;
+		int green =  color.getGreen();
+		
+		decData.setBackground(new Color(red, green, blue, 255));
+		hexData.setBackground(new Color(red, green, blue, 255));
+		binData.setBackground(new Color(red, green, blue, 255));
 		
 		decData.setEditable(false);
 		hexData.setEditable(false);
@@ -106,9 +117,9 @@ public class DataPanel extends JPanel {
 	private void setDataPanelLayout() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		decData.setPreferredSize(new Dimension(this.getWidth(), 80));
-		hexData.setPreferredSize(new Dimension(this.getWidth(), 80));
-		binData.setPreferredSize(new Dimension(this.getWidth(), 80));
+//		decData.setPreferredSize(new Dimension(this.getWidth(), 80));
+//		hexData.setPreferredSize(new Dimension(this.getWidth(), 80));
+//		binData.setPreferredSize(new Dimension(this.getWidth(), 80));
 		
 		add(decData);
 		add(hexData);
@@ -140,5 +151,11 @@ public class DataPanel extends JPanel {
 
 		
 	}
+
+	public Color getDataTextPaneBackgroundColor() {
+		dataTextPaneBackgroundColor = decData.getBackground();
+		return dataTextPaneBackgroundColor;
+	}
+
 
 }
