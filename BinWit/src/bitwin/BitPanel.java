@@ -35,6 +35,9 @@ public class BitPanel extends JPanel {
 	private boolean  lowerBitPanelisEnable;
 	private int      bitPanelLevel;
 	
+	// register button
+	private JButton  registerDataBtn;
+	
 	private ArrayList<String> bitList31to0;
 	private ArrayList<String> bitList63to32;
 	private ArrayList<String> bitListblank31to0;
@@ -47,8 +50,8 @@ public class BitPanel extends JPanel {
 		this.bitPanelLevel = bitPanelLevel;
 
 		addLowerBitPanelbtn = new JButton("+");
-		addLowerBitPanelbtn.setPreferredSize(new Dimension(10, 15));
-		addLowerBitPanelbtn.setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
+		
+		registerDataBtn = new JButton("R");
 
 		bitList31to0  = new ArrayList<String>(32);
 		bitList63to32 = new ArrayList<String>(32);
@@ -229,7 +232,7 @@ public class BitPanel extends JPanel {
 					lowerBitPanel.setRawDecData(selectedDataforLowerBitPanel);
 					lowerBitPanel.setBitPanelLevelListener(bitPanelLevelListener);
 
-					addLowerBitPanelbtn.setText("-");
+					addLowerBitPanelbtn.setText("−");
 					lowerBitPanelisEnable = true;
 					bitPanelLevelListener.lowerBitPanelHandle(lowerBitPanel, lowerBitPanelisEnable);
 					repaint();
@@ -467,12 +470,20 @@ public class BitPanel extends JPanel {
 				class LowerBitPanelButton extends JPanel {
 					public LowerBitPanelButton() {
 						setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+//						add(registerDataBtn);
+						registerDataBtn.setPreferredSize(new Dimension(30, 10));
+						registerDataBtn.setBackground(Color.LIGHT_GRAY);
+						registerDataBtn.setForeground(Color.WHITE);
+						registerDataBtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 15));
+						registerDataBtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,1, datapanelColor.brighter()), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+						
+						
 						add(addLowerBitPanelbtn);
-
 						addLowerBitPanelbtn.setPreferredSize(new Dimension(30, 10));
 						addLowerBitPanelbtn.setBackground(Color.LIGHT_GRAY);
-						addLowerBitPanelbtn.setForeground(Color.BLACK);
-						addLowerBitPanelbtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,1, datapanelColor.brighter()), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+						addLowerBitPanelbtn.setForeground(Color.WHITE);
+						addLowerBitPanelbtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 15));
+						addLowerBitPanelbtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,2, datapanelColor), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
 						setBackground(datapanelColor);
 					}
 				}

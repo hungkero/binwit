@@ -43,13 +43,13 @@ public class DataManipulation {
 		}
 
 		//error check, current limitation of the app
-		if (hasBitwiseNOT(str)) {
-			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
-		}
+//		if (hasBitwiseNOT(str)) {
+//			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
+//		}
 //		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 52)) {
 //			stringErrorListener.textDetect("Math operation calculation with data bit width bigger than 52bit is not supported");
 //		}
-		else if (str.contains("^")) {
+		if (str.contains("^")) {
 			stringErrorListener.textDetect("^ is bitwise XOR operator, use ** for exponential operator i.e 2**10 = 1024");
 		}
 		else {
@@ -68,27 +68,36 @@ public class DataManipulation {
 		operationInfo = getOperandsnOperator(str); // return the operands and operator in a List of Strings
 
 		operationRawDecDataList = new StringBuilder();
-		
-		for(String str_itr: operationInfo) {
-			boolean prevNotOperation = false;
 
+		boolean prevStrIsNotOperation = false;
+		for(String str_itr: operationInfo) {
 			if (hasOperatorChar(str_itr)) {
 				if (str_itr.contains("~") | str_itr.contains("!")) {
-					prevNotOperation = true;
+					prevStrIsNotOperation = true;
 				}
 				else {
 					operationRawDecDataList.append(str_itr);
 				}
 			}
 			else {
-				if (prevNotOperation) {
-					// should add special calculation for not operator to care about the bit width of variable when execute NOT operator
-					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr))+"n");
+				if (prevStrIsNotOperation) {
+					if (hasBitWidthNumber(str_itr)) {
+						stringErrorListener.textDetect("");
+						long decData = getRawDecData(str_itr);
+						int dataBitWidth = Integer.parseInt(str_itr.substring(0,str_itr.indexOf("'")));
+						long invertDecData = dataBitWidthStrip(dataBitWidth, ~decData);
+
+						operationRawDecDataList.append(Long.toString(invertDecData)+"n");
+
+						prevStrIsNotOperation = false;
+					}
+					else {
+						stringErrorListener.textDetect("Number must have bit width to be able to invert i.e : 16'hcafe, 3'b010, 32'd12345 ");
+					}
 				}
 				else {
 					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr))+"n");
 				}
-				prevNotOperation = false;
 			}
 		}
 		
@@ -124,6 +133,13 @@ public class DataManipulation {
 		}
 
 		return calcResult;
+	}
+
+	private boolean hasBitWidthNumber(String str_itr) {
+		if (str_itr.matches("^[0-9]{1,4}\'[h,d,b][0-9a-f]+")) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean hasUnCloseBrackets(String str) {
@@ -177,7 +193,7 @@ public class DataManipulation {
 		else if (str.matches("^[0-9]{1,4}\'d[0-9]+")) {
 			long fullDecData = Long.parseUnsignedLong(str.substring(str.indexOf("'")+2,str.length()));
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
-			decData = dataBitLengthStrip(dataBitLength, fullDecData);
+			decData = dataBitWidthStrip(dataBitLength, fullDecData);
 		}
 		return decData;
 	}
@@ -199,7 +215,7 @@ public class DataManipulation {
 			long fullDecData = Long.parseUnsignedLong(str.substring(str.indexOf("'")+2,str.length()), 16);
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			
-			decData = dataBitLengthStrip(dataBitLength, fullDecData);
+			decData = dataBitWidthStrip(dataBitLength, fullDecData);
 		}
 		return decData;
 	}
@@ -219,7 +235,7 @@ public class DataManipulation {
 			long fullDecData = Long.parseUnsignedLong(str.substring(str.indexOf("'")+2,str.length()), 2);
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			
-			decData = dataBitLengthStrip(dataBitLength, fullDecData);
+			decData = dataBitWidthStrip(dataBitLength, fullDecData);
 		}
 		return decData;
 	}
@@ -280,7 +296,7 @@ public class DataManipulation {
 		return false;
 	}
 
-	public long dataBitLengthStrip(int dataBitLength, long decData) {
+	public long dataBitWidthStrip(int dataBitWidth, long decData) {
 		long decStripped;
 
 		String binStr;
@@ -288,11 +304,11 @@ public class DataManipulation {
 		
 		binStr = Long.toBinaryString(decData);
 		
-		if (binStr.length() < dataBitLength) {
+		if (binStr.length() < dataBitWidth) {
 			binStrippedStr = binStr;
 		}
 		else {
-			binStrippedStr = binStr.substring(binStr.length() - dataBitLength, binStr.length());
+			binStrippedStr = binStr.substring(binStr.length() - dataBitWidth, binStr.length());
 		}
 
 		decStripped = Long.parseLong(binStrippedStr, 2);
