@@ -12,6 +12,8 @@ public class DataManipulation {
 	private static DataManipulation dataManipulation;
 	
 	private StringListener stringErrorListener;
+	
+	private boolean dataInputHasError;
 
 	public DataManipulation() {
 	}
@@ -28,6 +30,7 @@ public class DataManipulation {
 		long rawData;
 
 		rawData = 0;
+		dataInputHasError = false;
 		
 		if (hasOperatorChar(str)) {
 			rawData = calcOperation(str);
@@ -41,6 +44,10 @@ public class DataManipulation {
 		else if (isBin(str)) {
 			rawData = parsingBinStrtoDecData(str);
 		}
+		else {
+			dataInputHasError = true;
+			stringErrorListener.textDetect("Number format ERROR");
+		}
 
 		//error check, current limitation of the app
 //		if (hasBitwiseNOT(str)) {
@@ -52,8 +59,8 @@ public class DataManipulation {
 		if (str.contains("^")) {
 			stringErrorListener.textDetect("^ is bitwise XOR operator, use ** for exponential operator i.e 2**10 = 1024");
 		}
-		else if (hasOperatorChar(str)) {
-			// place holder for invert operation error checking in calcOperation()
+		else if (dataInputHasError) {
+			// place holder to maintain error message at stringErrorListener
 		}
 		else {
 			stringErrorListener.textDetect("");
@@ -93,9 +100,11 @@ public class DataManipulation {
 						operationRawDecDataList.append(Long.toString(invertDecData)+"n");
 
 						prevStrIsNotOperation = false;
+						dataInputHasError = false;
 					}
 					else {
 						stringErrorListener.textDetect("Number must have bit width to be able to invert i.e : 16'hcafe, 3'b010, 32'd12345 ");
+						dataInputHasError = true;
 					}
 				}
 				else {
@@ -198,6 +207,10 @@ public class DataManipulation {
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			decData = dataBitWidthStrip(dataBitLength, fullDecData);
 		}
+		else {
+			dataInputHasError = true;
+			stringErrorListener.textDetect("Number format ERROR");
+		}
 		return decData;
 	}
 
@@ -220,6 +233,10 @@ public class DataManipulation {
 			
 			decData = dataBitWidthStrip(dataBitLength, fullDecData);
 		}
+		else {
+			dataInputHasError = true;
+			stringErrorListener.textDetect("Number format ERROR");
+		}
 		return decData;
 	}
 
@@ -231,7 +248,7 @@ public class DataManipulation {
 		str = str.replace("_", "");
 		str = str.replace("-", "");
 
-		if(str.matches("^\'b[01_-]+")){
+		if(str.matches("^\'b[01]+")){
 			decData = Long.parseUnsignedLong(str.substring(2,str.length()), 2);
 		}
 		else if (str.matches("^[0-9]{1,4}\'b[01]+")) {
@@ -239,6 +256,11 @@ public class DataManipulation {
 			int dataBitLength = Integer.parseInt(str.substring(0,str.indexOf("'")));
 			
 			decData = dataBitWidthStrip(dataBitLength, fullDecData);
+		}
+		else {
+			dataInputHasError = true;
+			stringErrorListener.textDetect("Number format ERROR");
+			System.out.println("ERROR");
 		}
 		return decData;
 	}
