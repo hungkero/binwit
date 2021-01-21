@@ -105,7 +105,7 @@ public class DataManipulation {
 						prevStrIsNotOperation = false;
 					}
 					else {
-						stringErrorListener.textDetect("Number must have bit width to be able to invert i.e : 16'hcafe, 3'b010, 32'd12345 ");
+						stringErrorListener.textDetect("Number must have bit width to be able to be inverted i.e : 16'hcafe, 3'b010, 32'd12345 ");
 						dataInputHasError = true;
 					}
 				}

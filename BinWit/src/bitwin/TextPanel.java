@@ -6,12 +6,9 @@ import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.border.Border;
 
 public class TextPanel extends JPanel {
 	private JTextArea textArea;
@@ -29,6 +26,8 @@ public class TextPanel extends JPanel {
 		prevTextArea = new JTextPane();
 		prevTextArea.setEditable(false);
 		
+		textArea.setFont(new Font(Font.DIALOG, Font.PLAIN, 14));
+		prevTextArea.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 12));
 		
 		layoutConfiure();
 		textArea.addKeyListener(new KeyListener() {
