@@ -132,7 +132,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//border
-        getRootPane().setBorder(BorderFactory.createMatteBorder(1,1,1,1, Color.WHITE));
+        getRootPane().setBorder(BorderFactory.createMatteBorder(0,0,0,0, Color.LIGHT_GRAY));
 		
 		//set logo
 		java.net.URL imageURL = MainFrame.class.getResource("dvtalk.png");
