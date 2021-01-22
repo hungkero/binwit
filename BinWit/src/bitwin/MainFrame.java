@@ -3,7 +3,6 @@ package bitwin;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -12,10 +11,10 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
-
-import com.oracle.truffle.object.ShapeBasic;
 
 public class MainFrame extends JFrame {
 	private static Point point = new Point();
@@ -23,6 +22,7 @@ public class MainFrame extends JFrame {
 	private TextPanel mainText;
 	private DataPanel dataPanel;
 	private BitPanel  bitPanel;
+	private TittleBarPanel tittleBarPanel;
 	
 	public MainFrame() {
 		super("BinWit");
@@ -33,6 +33,8 @@ public class MainFrame extends JFrame {
 
 		bitPanel = new BitPanel(1);
 		
+		tittleBarPanel = new TittleBarPanel();
+		
 		bitPanel.setBitTableModified(new StringListener() {
 			@Override
 			public void textDetect(String text) {
@@ -41,7 +43,6 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-
 		mainText.setFinalStringListener(new StringListener() {
 			@Override
 			public void textDetect(String text) {
@@ -70,40 +71,52 @@ public class MainFrame extends JFrame {
 		layoutConfigure();
 	}
 	
-	
-	
 
 	public void layoutConfigure() {
 
         ArrayList<BitPanel> lowerBitPanels = new ArrayList<BitPanel>();
 
+        // misc
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // remove window default title bar
 		setUndecorated(true);
 
-		//Layout manager
-		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-		
-		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
-		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
-		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 160));
-
-		add(mainText);
-		add(dataPanel);
-		add(bitPanel);
-		
+		//border of sub-component
+		tittleBarPanel.setBorder(BorderFactory.createEmptyBorder(8,8,3,8));
+		mainText.setBorder(BorderFactory.createEmptyBorder(0,8,15,8));
 		Border outerBorder = BorderFactory.createEmptyBorder(10,8,10,8);
-		mainText.setBorder(BorderFactory.createEmptyBorder(15,8,15,8));
 		dataPanel.setBorder(outerBorder);
 		bitPanel.setBorder(outerBorder);
 
+		// color
 		Color backgroundColor = new Color(224,235,235, 248);
 		setBackground(backgroundColor);
 
 		backgroundColor = new Color(224,235,235, 0);
+		tittleBarPanel.setBackground(backgroundColor);
 		mainText.setBackground(backgroundColor);
 		dataPanel.setBackground(backgroundColor);
 		bitPanel.setBackground(backgroundColor);
+		
+		tittleBarPanel.refreshColor();
+
+		//Layout manager
+		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		add(tittleBarPanel);
+		add(mainText);
+		add(dataPanel);
+		add(bitPanel);
+		
+
+		// size control
+		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 20));
+		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
+		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
+		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 160));
 
 		setSize(700, 120+120+180+lowerBitPanels.size()*180);
+
 		bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() {
 			@Override
 			public void lowerBitPanelHandle(BitPanel bitPanel, boolean newAdd) {
@@ -129,7 +142,6 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//border
         getRootPane().setBorder(BorderFactory.createMatteBorder(0,0,0,0, Color.LIGHT_GRAY));
