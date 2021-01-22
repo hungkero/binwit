@@ -232,7 +232,8 @@ public class BitPanel extends JPanel {
 					lowerBitPanel.setRawDecData(selectedDataforLowerBitPanel);
 					lowerBitPanel.setBitPanelLevelListener(bitPanelLevelListener);
 
-					addLowerBitPanelbtn.setText("−");
+					addLowerBitPanelbtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 18));
+					addLowerBitPanelbtn.setText("×");
 					lowerBitPanelisEnable = true;
 					bitPanelLevelListener.lowerBitPanelHandle(lowerBitPanel, lowerBitPanelisEnable);
 					repaint();
@@ -244,6 +245,7 @@ public class BitPanel extends JPanel {
 
 						lowerBitPanel.finalize();
 
+						addLowerBitPanelbtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 15));
 						addLowerBitPanelbtn.setText("+");
 						lowerBitPanelisEnable = false;
 						bitPanelLevelListener.lowerBitPanelHandle(lowerBitPanel, lowerBitPanelisEnable);

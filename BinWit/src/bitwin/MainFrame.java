@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
 		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
 		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 160));
 
-		setSize(700, 120+120+180+lowerBitPanels.size()*180);
+		setSize(720, 120+120+180+lowerBitPanels.size()*180);
 
 		bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() {
 			@Override

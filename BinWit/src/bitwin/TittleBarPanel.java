@@ -102,7 +102,7 @@ public class TittleBarPanel extends JPanel {
 		
 		addToMemBtn.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
 		memHistMenu.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
-		closeBtn.setFont(new Font(Font.DIALOG, Font.BOLD, 18));
+		closeBtn.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
 		
 		refreshColor();
 		
