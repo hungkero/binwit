@@ -44,8 +44,6 @@ public class TextPanel extends JPanel {
 				
 
 				if (datadetect != null) {
-					long rawDecData = datadetect.getRawDecData(textstr.replaceAll("\\s", ""));
-
 					if (typingDataStringListener != null) {
 						typingDataStringListener.textDetect(textstr);
 					}

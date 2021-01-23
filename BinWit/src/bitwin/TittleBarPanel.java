@@ -136,7 +136,7 @@ public class TittleBarPanel extends JPanel {
 		for (MemHistItem item_itr: operationHistory) {
 			memHistMenu.add(item_itr);
 			item_itr.setItemClickedStringListener(memHistMenuItemListener);
-			item_itr.setText("$"+i+ ":  " + item_itr.getStr_operation());
+			item_itr.setText("$"+i+ ":  " + item_itr.toString());
 			i++;
 		}
 		memHistMenu.updateUI();
