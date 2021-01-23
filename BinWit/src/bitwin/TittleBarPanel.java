@@ -12,13 +12,18 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.plaf.MenuItemUI;
 
 public class TittleBarPanel extends JPanel {
 	private JButton closeBtn;
+	private JButton infoBtn;
+	private InfoFrame infoFrame;
+
 	private JMenuBar memHistMenuBar;
 	private JMenu    memHistMenu;
 	private JMenu    addToMemBtn;
@@ -48,6 +53,10 @@ public class TittleBarPanel extends JPanel {
 		eastPanel = new ButtonPanel();
 
 		closeBtn = new JButton("×");
+		infoBtn = new JButton("※"); //⁜
+		infoFrame = new InfoFrame();
+
+
 		memHistMenuBar = new JMenuBar();
 		addToMemBtn = new JMenu(" M+ ");
 		memHistMenu = new JMenu(" M↓ ");
@@ -78,6 +87,27 @@ public class TittleBarPanel extends JPanel {
 			}
 		});
 		
+		infoBtn.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent arg0) {
+				releasedColored(infoBtn);
+			}
+			public void mousePressed(MouseEvent arg0) {
+				selectedColored(infoBtn);
+			}
+			public void mouseExited(MouseEvent arg0) {
+				releasedColored(closeBtn);
+			}
+			public void mouseEntered(MouseEvent arg0) {
+				selectedColored(infoBtn);
+			}
+			public void mouseClicked(MouseEvent arg0) {
+				releasedColored(closeBtn);
+				infoFrame.setBackgroundColor(eastPanel.getBackground());
+			    infoFrame.setLocationRelativeTo(getParent());
+			    infoFrame.setVisible(true);
+			}
+		});
+
 		addToMemBtn.addMouseListener(new MouseListener() {
 			public void mouseReleased(MouseEvent arg0) {
 				releasedColored(addToMemBtn);
@@ -147,12 +177,15 @@ public class TittleBarPanel extends JPanel {
 		
 		add(westPanel, BorderLayout.WEST);
 		add(eastPanel, BorderLayout.EAST);
+
 		westPanel.addComponent(memHistMenuBar);
+		eastPanel.addComponent(infoBtn);
 		eastPanel.addComponent(closeBtn);
 		
 		addToMemBtn.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
 		memHistMenu.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
 		closeBtn.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
+		infoBtn.setFont(new Font(Font.DIALOG, Font.PLAIN, 20));
 		
 		refreshColor();
 		
@@ -169,21 +202,25 @@ public class TittleBarPanel extends JPanel {
 		addToMemBtn.setOpaque(true);
 		memHistMenu.setOpaque(true);
 		closeBtn.setOpaque(true);
+		infoBtn.setOpaque(true);
 		
 		westPanel.setBackground(new Color(red, green, blue, alpha));
 		eastPanel.setBackground(new Color(red, green, blue, alpha));
 		
 		closeBtn.setBackground(new Color(red, green, blue, alpha));
+		infoBtn.setBackground(new Color(red, green, blue, alpha));
 		addToMemBtn.setBackground(new Color(red, green, blue, alpha));
 		memHistMenu.setBackground(new Color(red, green, blue, alpha));
 		memHistMenuBar.setBackground(new Color(red, green, blue, alpha));
 		
 		closeBtn.setForeground(new Color(red -150, green-150, blue -150, 255));
+		infoBtn.setForeground(new Color(red -150, green-150, blue -150, 255));
 		addToMemBtn.setForeground(new Color(red -150, green-150, blue -150, 255));
 		memHistMenu.setForeground(new Color(red -150, green-150, blue -150, 255));
 		memHistMenuBar.setForeground(new Color(red -150, green-150, blue -150, 255));
 
 		closeBtn.setBorder(BorderFactory.createLineBorder(closeBtn.getBackground(), 1, true));
+		infoBtn.setBorder(BorderFactory.createLineBorder(closeBtn.getBackground(), 1, true));
 		addToMemBtn.setBorder(BorderFactory.createLineBorder(addToMemBtn.getBackground(), 1, true));
 		memHistMenu.setBorder(BorderFactory.createLineBorder(addToMemBtn.getBackground(), 1, true));
 		memHistMenuBar.setBorder(BorderFactory.createLineBorder(addToMemBtn.getBackground(), 1, true));
