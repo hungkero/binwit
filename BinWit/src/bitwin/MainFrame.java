@@ -27,6 +27,8 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		super("BinWit");
 		
+		DataManipulation datadetect = DataManipulation.getInst();
+
 		mainText = new TextPanel();
 
 		dataPanel = new DataPanel();
@@ -35,6 +37,20 @@ public class MainFrame extends JFrame {
 		
 		tittleBarPanel = new TittleBarPanel();
 		
+		tittleBarPanel.setMemHistMenuItemListener(new StringListener() {
+			@Override
+			public void textDetect(String text) {
+				System.out.println("Main frma + click detect text"+ text);
+				long rawDecData = datadetect.getRawDecData(text.replaceAll("\\s", ""));
+
+				dataPanel.setRawDecData(rawDecData);
+				bitPanel.setRawDecData(rawDecData);
+
+				mainText.setText(text);
+				tittleBarPanel.setCurrentOperation(text);
+			}
+		});
+
 		bitPanel.setBitTableModified(new StringListener() {
 			@Override
 			public void textDetect(String text) {
@@ -43,17 +59,15 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		mainText.setFinalStringListener(new StringListener() {
-			@Override
-			public void textDetect(String text) {
-			}
-		});
-
 		mainText.setTypingDataString(new StringListener() {
 			@Override
 			public void textDetect(String text) {
-				dataPanel.setRawDecData(Long.parseLong(text));
-				bitPanel.setRawDecData(Long.parseLong(text));
+				long rawDecData = datadetect.getRawDecData(text.replaceAll("\\s", ""));
+
+				dataPanel.setRawDecData(rawDecData);
+				bitPanel.setRawDecData(rawDecData);
+				
+				tittleBarPanel.setCurrentOperation(text);
 			}
 		});
 		

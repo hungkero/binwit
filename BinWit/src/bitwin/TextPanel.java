@@ -15,7 +15,7 @@ public class TextPanel extends JPanel {
 	private JTextPane prevTextArea;
 
 	private StringListener finalDataString;
-	private StringListener typingDataString;
+	private StringListener typingDataStringListener;
 
 
 	public TextPanel() {
@@ -41,14 +41,15 @@ public class TextPanel extends JPanel {
 			public void keyReleased(KeyEvent e) {
 				String textstr = textArea.getText().toLowerCase();
 				DataManipulation datadetect = DataManipulation.getInst();
+				
 
 				if (datadetect != null) {
 					long rawDecData = datadetect.getRawDecData(textstr.replaceAll("\\s", ""));
 
-					if (typingDataString != null) {
-						typingDataString.textDetect(Long.toString(rawDecData));
+					if (typingDataStringListener != null) {
+						typingDataStringListener.textDetect(textstr);
 					}
-					
+
 					// check if character is allow based on the char before --> need to add later
 					if (textstr.length() > 0) {
 						String lastCharacter = textstr.substring(textstr.length()-1);
@@ -58,7 +59,7 @@ public class TextPanel extends JPanel {
 							textArea.setText(textstr.substring(0,textstr.length() - 1));
 						}
 					}
-						
+
 				}
 			}
 			
@@ -82,7 +83,7 @@ public class TextPanel extends JPanel {
 	}
 	
 	public void setTypingDataString(StringListener typingDataString) {
-		this.typingDataString = typingDataString;
+		this.typingDataStringListener = typingDataString;
 	}
 
 	public String getText() {

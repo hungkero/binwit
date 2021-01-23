@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -17,8 +19,12 @@ import javax.swing.JPanel;
 public class TittleBarPanel extends JPanel {
 	private JButton closeBtn;
 	private JMenuBar memHistMenuBar;
-	private JMenu   memHistMenu;
-	private JMenu   addToMemBtn;
+	private JMenu    memHistMenu;
+	private JMenu    addToMemBtn;
+	
+	private String currentOperation;
+	
+	private StringListener memHistMenuItemListener;
 	
 	class ButtonPanel extends JPanel {
 		public ButtonPanel() {
@@ -32,7 +38,11 @@ public class TittleBarPanel extends JPanel {
 	private ButtonPanel westPanel;
 	private ButtonPanel eastPanel;
 
+	private ArrayList<MemHistItem> operationHistory;
+
 	public TittleBarPanel() {
+		operationHistory = new ArrayList<MemHistItem>();
+
 		westPanel = new ButtonPanel();
 		eastPanel = new ButtonPanel();
 
@@ -89,7 +99,48 @@ public class TittleBarPanel extends JPanel {
 			}
 		});
 		
+		addToMemBtn.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent arg0) {
+			}
+			public void mousePressed(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			public void mouseExited(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			public void mouseEntered(MouseEvent arg0) {
+			}
+			
+			public void mouseClicked(MouseEvent arg0) {
+				if (currentOperation != null) {
+					MemHistItem newmemHistItem = new MemHistItem(currentOperation);
+					for (MemHistItem item_itr: operationHistory) {
+						if (item_itr.compare(item_itr, newmemHistItem) == 0) {
+							return; //duplicate item
+						}
+					}
+					operationHistory.add(newmemHistItem);
+				}
+				updateMemHist();
+			}
+		});
+
+		
 		layoutConfigure();
+	}
+	
+	private void updateMemHist() {
+		//remove duplicate
+
+
+		memHistMenu.removeAll();
+		for (MemHistItem item_itr: operationHistory) {
+			memHistMenu.add(item_itr);
+			item_itr.setItemClickedStringListener(memHistMenuItemListener);
+		}
+		memHistMenu.updateUI();
 	}
 
 	private void layoutConfigure() {
@@ -134,5 +185,13 @@ public class TittleBarPanel extends JPanel {
 		memHistMenu.setBorder(BorderFactory.createLineBorder(addToMemBtn.getBackground(), 1, true));
 		memHistMenuBar.setBorder(BorderFactory.createLineBorder(addToMemBtn.getBackground(), 1, true));
 		
+	}
+
+	public void setCurrentOperation(String currentOperation) {
+		this.currentOperation = currentOperation;
+	}
+
+	public void setMemHistMenuItemListener(StringListener memHistMenuItemListener) {
+		this.memHistMenuItemListener = memHistMenuItemListener;
 	}
 }
