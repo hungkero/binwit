@@ -47,6 +47,7 @@ public class MainFrame extends JFrame {
 
 				mainText.setText(text);
 				tittleBarPanel.setCurrentOperation(text);
+				repaint();
 			}
 		});
 
@@ -55,6 +56,7 @@ public class MainFrame extends JFrame {
 			public void textDetect(String text) {
 				dataPanel.setRawDecData(Long.parseLong(text));
 				mainText.setText("");
+				repaint();
 			}
 		});
 		
@@ -67,6 +69,7 @@ public class MainFrame extends JFrame {
 				bitPanel.setRawDecData(rawDecData);
 				
 				tittleBarPanel.setCurrentOperation(text);
+				repaint();
 			}
 		});
 		
