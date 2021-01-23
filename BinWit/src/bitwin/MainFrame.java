@@ -40,7 +40,6 @@ public class MainFrame extends JFrame {
 		tittleBarPanel.setMemHistMenuItemListener(new StringListener() {
 			@Override
 			public void textDetect(String text) {
-				System.out.println("Main frma + click detect text"+ text);
 				long rawDecData = datadetect.getRawDecData(text.replaceAll("\\s", ""));
 
 				dataPanel.setRawDecData(rawDecData);

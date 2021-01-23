@@ -3,10 +3,10 @@ package bitwin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.plaf.MenuItemUI;
 
 public class TittleBarPanel extends JPanel {
 	private JButton closeBtn;
@@ -55,65 +56,43 @@ public class TittleBarPanel extends JPanel {
 		memHistMenuBar.add(memHistMenu);
 
 		closeBtn.addMouseListener(new MouseListener() {
-			Color color;
-			int red,blue,green,alpha;
-			
 			public void mouseReleased(MouseEvent arg0) {
-				color = eastPanel.getBackground();
-				red = color.getRed();
-				blue = color.getBlue();
-				green = color.getGreen();
-				alpha = color.getAlpha();
-				closeBtn.setBackground(new Color(red, green, blue, alpha ));
+				releasedColored(closeBtn);
 			}
 			
 			public void mousePressed(MouseEvent arg0) {
-				color = eastPanel.getBackground();
-				red = color.getRed();
-				blue = color.getBlue();
-				green = color.getGreen();
-				alpha = color.getAlpha();
-				closeBtn.setBackground(new Color(red - 10, green - 10, blue -10, 200 ));
+				selectedColored(closeBtn);
 			}
 			
 			public void mouseExited(MouseEvent arg0) {
-				color = eastPanel.getBackground();
-				red = color.getRed();
-				blue = color.getBlue();
-				green = color.getGreen();
-				alpha = color.getAlpha();
-				closeBtn.setBackground(new Color(red, green, blue, alpha ));
+				releasedColored(closeBtn);
 			}
 			
 			public void mouseEntered(MouseEvent arg0) {
-				color = eastPanel.getBackground();
-				red = color.getRed();
-				blue = color.getBlue();
-				green = color.getGreen();
-				alpha = color.getAlpha();
-				closeBtn.setBackground(new Color(red - 10, green - 10, blue -10, 200 ));
+				selectedColored(closeBtn);
 			}
 			
 			public void mouseClicked(MouseEvent arg0) {
+				selectedColored(closeBtn);
 				System.exit(0);
 			}
 		});
 		
 		addToMemBtn.addMouseListener(new MouseListener() {
 			public void mouseReleased(MouseEvent arg0) {
+				releasedColored(addToMemBtn);
 			}
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				selectedColored(addToMemBtn);
 			}
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				releasedColored(addToMemBtn);
 			}
 			public void mouseEntered(MouseEvent arg0) {
+				selectedColored(addToMemBtn);
 			}
-			
 			public void mouseClicked(MouseEvent arg0) {
+				selectedColored(addToMemBtn);
 				if (currentOperation != null) {
 					MemHistItem newmemHistItem = new MemHistItem(currentOperation);
 					for (MemHistItem item_itr: operationHistory) {
@@ -121,24 +100,43 @@ public class TittleBarPanel extends JPanel {
 							return; //duplicate item
 						}
 					}
+					if (operationHistory.size() > 10) {
+						operationHistory.remove(0);
+					}
 					operationHistory.add(newmemHistItem);
 				}
 				updateMemHist();
 			}
 		});
 
-		
+		memHistMenu.addMouseListener(new MouseListener() {
+			public void mouseReleased(MouseEvent e) {
+				releasedColored(memHistMenu);
+			}
+			public void mousePressed(MouseEvent e) {
+				selectedColored(memHistMenu);
+			}
+			public void mouseExited(MouseEvent e) {
+				releasedColored(memHistMenu);
+			}
+			public void mouseEntered(MouseEvent e) {
+				selectedColored(memHistMenu);
+			}
+			public void mouseClicked(MouseEvent e) {
+				selectedColored(memHistMenu);
+			}
+		});
+
 		layoutConfigure();
 	}
 	
 	private void updateMemHist() {
-		//remove duplicate
-
-
 		memHistMenu.removeAll();
+		int i = 1;
 		for (MemHistItem item_itr: operationHistory) {
 			memHistMenu.add(item_itr);
 			item_itr.setItemClickedStringListener(memHistMenuItemListener);
+			item_itr.setText("$"+i+ ":  " + item_itr.getText());
 		}
 		memHistMenu.updateUI();
 	}
@@ -167,6 +165,10 @@ public class TittleBarPanel extends JPanel {
 		int green = color.getGreen();
 		int alpha = color.getAlpha();
 		
+		addToMemBtn.setOpaque(true);
+		memHistMenu.setOpaque(true);
+		closeBtn.setOpaque(true);
+		
 		westPanel.setBackground(new Color(red, green, blue, alpha));
 		eastPanel.setBackground(new Color(red, green, blue, alpha));
 		
@@ -186,6 +188,25 @@ public class TittleBarPanel extends JPanel {
 		memHistMenuBar.setBorder(BorderFactory.createLineBorder(addToMemBtn.getBackground(), 1, true));
 		
 	}
+	
+	public void selectedColored(JComponent component) {
+		Color color = eastPanel.getBackground();
+		int red = color.getRed();
+		int blue = color.getBlue();
+		int green = color.getGreen();
+		int alpha = color.getAlpha();
+		component.setBackground(new Color(red - 10, green - 10, blue -10, 200 ));
+	}
+	
+	public void releasedColored(JComponent component) {
+		Color color = eastPanel.getBackground();
+		int red = color.getRed();
+		int blue = color.getBlue();
+		int green = color.getGreen();
+		int alpha = color.getAlpha();
+		component.setBackground(new Color(red, green, blue, alpha ));
+	}
+	
 
 	public void setCurrentOperation(String currentOperation) {
 		this.currentOperation = currentOperation;
