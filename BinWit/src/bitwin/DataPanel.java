@@ -126,7 +126,7 @@ public class DataPanel extends JPanel {
 		add(binData);
 		
 		Dimension dm = getSize();
-		setPreferredSize(new Dimension((int) dm.getWidth(), 80));
+		setPreferredSize(new Dimension((int) dm.getWidth(), 100));
 		
 //		setLayout(new GridBagLayout());
 //		GridBagConstraints gc = new GridBagConstraints();

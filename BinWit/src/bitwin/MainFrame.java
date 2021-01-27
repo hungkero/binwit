@@ -90,6 +90,7 @@ public class MainFrame extends JFrame {
 
 	public void layoutConfigure() {
 
+		
         ArrayList<BitPanel> lowerBitPanels = new ArrayList<BitPanel>();
 
         // misc
@@ -124,14 +125,13 @@ public class MainFrame extends JFrame {
 		add(dataPanel);
 		add(bitPanel);
 		
-
 		// size control
 		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 20));
 		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
-		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 80));
-		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 160));
+		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
+		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
 
-		setSize(750, 120+120+180+lowerBitPanels.size()*180);
+		setSize(800, 40+140+140+180+lowerBitPanels.size()*180);
 
 		bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() {
 			@Override
@@ -153,7 +153,7 @@ public class MainFrame extends JFrame {
 					lowerBitPanels.removeIf(bitPanel_itr -> (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove)	);
 				}
 				Dimension dm = getSize();
-				setSize(new Dimension(dm.width, 120+120+180+lowerBitPanels.size()*180));
+				setSize(new Dimension(dm.width, 40+140+140+180+lowerBitPanels.size()*180));
 				repaint();
 			}
 		});

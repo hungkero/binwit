@@ -179,7 +179,7 @@ public class TittleBarPanel extends JPanel {
 		add(eastPanel, BorderLayout.EAST);
 
 		westPanel.addComponent(memHistMenuBar);
-		eastPanel.addComponent(infoBtn);
+//		eastPanel.addComponent(infoBtn);
 		eastPanel.addComponent(closeBtn);
 		
 		addToMemBtn.setFont(new Font(Font.DIALOG, Font.BOLD, 14));
@@ -253,4 +253,6 @@ public class TittleBarPanel extends JPanel {
 	public void setMemHistMenuItemListener(StringListener memHistMenuItemListener) {
 		this.memHistMenuItemListener = memHistMenuItemListener;
 	}
+
+
 }
