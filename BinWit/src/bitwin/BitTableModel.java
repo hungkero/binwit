@@ -7,14 +7,16 @@ import javax.swing.table.AbstractTableModel;
 
 public class BitTableModel extends AbstractTableModel {
 	private List<String> bitList;
+	private int bitsPerRow;
 	
-	public BitTableModel(List<String> bitList) {
+	public BitTableModel(List<String> bitList, int bitsPerRow) {
 		this.bitList = bitList;
+		this.bitsPerRow = bitsPerRow;
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 40; //32 + 8 spaces
+		return bitsPerRow + bitsPerRow/4; //32 + 8 spaces
 	}
 
 	@Override
@@ -28,7 +30,7 @@ public class BitTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int row, int col) {
-		int listidx = row*32 +col;
+		int listidx = row*bitsPerRow +col;
 		return bitList.get(listidx);
 	}
 

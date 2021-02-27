@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
-public class TextPanel extends JPanel {
+public class TextInputPanel extends JPanel {
 	private JTextArea textArea;
 	private JTextPane prevTextArea;
 
@@ -18,7 +18,7 @@ public class TextPanel extends JPanel {
 	private StringListener typingDataStringListener;
 
 
-	public TextPanel() {
+	public TextInputPanel() {
 		textArea = new JTextArea(this.getWidth(), this.getHeight());
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
@@ -31,18 +31,13 @@ public class TextPanel extends JPanel {
 		
 		layoutConfiure();
 		textArea.addKeyListener(new KeyListener() {
-			
-			@Override
 			public void keyTyped(KeyEvent e) {
-
 			}
-			
-			@Override
+
 			public void keyReleased(KeyEvent e) {
 				String textstr = textArea.getText().toLowerCase();
 				DataManipulation datadetect = DataManipulation.getInst();
 				
-
 				if (datadetect != null) {
 					if (typingDataStringListener != null) {
 						typingDataStringListener.textDetect(textstr);
@@ -61,7 +56,6 @@ public class TextPanel extends JPanel {
 				}
 			}
 			
-			@Override
 			public void keyPressed(KeyEvent e) {
 			}
 		});

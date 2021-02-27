@@ -62,7 +62,7 @@ public class BitPanel extends JPanel {
 		selectedDataPanel = new DataPanel();
 
 		// table for 63-32 bit
-		tableModel63to32 = new BitTableModel(parsingBitList(bitList63to32));
+		tableModel63to32 = new BitTableModel(parsingBitList(bitList63to32),32);
 		table63to32 = new JTable(tableModel63to32);	
 
 		table63to32.setCellSelectionEnabled(true);
@@ -135,7 +135,7 @@ public class BitPanel extends JPanel {
 		});
 
 		// table for 31 to 0 bit
-		tableModel31to0 = new BitTableModel(parsingBitList(bitList31to0));
+		tableModel31to0 = new BitTableModel(parsingBitList(bitList31to0),32);
 		table31to0 = new JTable(tableModel31to0);	
 
 		table31to0.setCellSelectionEnabled(true);
@@ -207,7 +207,7 @@ public class BitPanel extends JPanel {
 		// create bit position bars
 		bitListblank31to0 = new ArrayList<String>();
 		initBlankList31to0();
-		tableModelblank31to0 = new BitTableModel(parsingBitList(bitListblank31to0));
+		tableModelblank31to0 = new BitTableModel(parsingBitList(bitListblank31to0),32);
 		tableblank31to0 = new JTable(tableModelblank31to0);	
 		tableblank31to0.setCellSelectionEnabled(false);
 		tableblank31to0.setBackground(this.getBackground());
@@ -216,7 +216,7 @@ public class BitPanel extends JPanel {
 		
 		bitListblank63to32 = new ArrayList<String>();
 		initBlankList63to32();
-		tableModelblank63to32 = new BitTableModel(parsingBitList(bitListblank63to32));
+		tableModelblank63to32 = new BitTableModel(parsingBitList(bitListblank63to32),32);
 		tableblank63to32 = new JTable(tableModelblank63to32);	
 		tableblank63to32.setCellSelectionEnabled(false);
 		tableblank63to32.setBackground(this.getBackground());
@@ -354,7 +354,6 @@ public class BitPanel extends JPanel {
 		for (int i=0; i< bitStr.length(); i++) {
 			list.set((31-i),String.valueOf(bitStr.charAt((bitStr.length()-1)-i)));
 		}
-
 	}
 
 	private ArrayList<String> parsingBitList(ArrayList<String> bitList) {

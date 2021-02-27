@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -17,11 +19,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JToggleButton;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.plaf.MenuItemUI;
 
 public class TittleBarPanel extends JPanel {
 	private JButton closeBtn;
 	private JButton infoBtn;
+	private JRadioButton multipleDWordBtn;
+
 	private InfoFrame infoFrame;
 
 	private JMenuBar memHistMenuBar;
@@ -31,6 +39,7 @@ public class TittleBarPanel extends JPanel {
 	private String currentOperation;
 	
 	private StringListener memHistMenuItemListener;
+	private StringListener multipleDwordEnable;
 	
 	class ButtonPanel extends JPanel {
 		public ButtonPanel() {
@@ -55,6 +64,8 @@ public class TittleBarPanel extends JPanel {
 		closeBtn = new JButton("×");
 		infoBtn = new JButton("※"); //⁜
 		infoFrame = new InfoFrame();
+		
+		multipleDWordBtn = new JRadioButton("Multiple DWords");
 
 
 		memHistMenuBar = new JMenuBar();
@@ -157,6 +168,20 @@ public class TittleBarPanel extends JPanel {
 			}
 		});
 
+		multipleDWordBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (multipleDWordBtn.isSelected()) {
+					multipleDwordEnable.textDetect("1");
+				}
+				else {
+					multipleDwordEnable.textDetect("0");
+				}
+				
+			}
+		});
+		
+		
 		layoutConfigure();
 	}
 	
@@ -174,11 +199,13 @@ public class TittleBarPanel extends JPanel {
 
 	private void layoutConfigure() {
 		setLayout(new BorderLayout(5,5));
-		
+
 		add(westPanel, BorderLayout.WEST);
 		add(eastPanel, BorderLayout.EAST);
+		
 
 		westPanel.addComponent(memHistMenuBar);
+		westPanel.addComponent(multipleDWordBtn);
 //		eastPanel.addComponent(infoBtn);
 		eastPanel.addComponent(closeBtn);
 		
@@ -252,6 +279,10 @@ public class TittleBarPanel extends JPanel {
 
 	public void setMemHistMenuItemListener(StringListener memHistMenuItemListener) {
 		this.memHistMenuItemListener = memHistMenuItemListener;
+	}
+
+	public void setMultipleDwordEnable(StringListener multipleDwordEnable) {
+		this.multipleDwordEnable = multipleDwordEnable;
 	}
 
 

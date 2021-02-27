@@ -21,23 +21,17 @@ public class DataPanel extends JPanel {
 	private JTextPane hexData;
 	private JTextPane binData;
 	
-//	private JTextField decData;
-//	private JTextField hexData;
-//	private JTextField binData;
-
-//	private JLabel decData;
-//	private JLabel hexData;
-//	private JLabel binData;
-
-
-	private JPanel decPanel;
-	private JPanel hexPanel;
-	private JPanel binPanel;
-	
 	private long rawDecData;
 	
 	private Color dataTextPaneBackgroundColor;
 	
+	private boolean binDataDisable=false;
+	
+	public void setBinDataDisable(boolean binDataDisable) {
+		this.binDataDisable = binDataDisable;
+		binData.setVisible(false);
+	}
+
 	public void setRawDecData(long rawDecData) {
 		this.rawDecData = (long) rawDecData;
 		updateDataLabel();
@@ -80,18 +74,10 @@ public class DataPanel extends JPanel {
 		hexData.setContentType("text/plain");
 		binData.setContentType("text/plain");
 		
-//		decData = new JTextField();
-//		hexData = new JTextField();
-//		binData = new JTextField();
-		
-//		decData = new JLabel();
-//		hexData = new JLabel();
-//		binData = new JLabel();
-		
 		Color color = getBackground();
-		int blue = color.getBlue() ;
-		int red =  color.getRed() ;
-		int green =  color.getGreen();
+		int blue    = color.getBlue() ;
+		int red     = color.getRed() ;
+		int green   = color.getGreen();
 		
 		decData.setBackground(new Color(red, green, blue, 255));
 		hexData.setBackground(new Color(red, green, blue, 255));
@@ -116,39 +102,12 @@ public class DataPanel extends JPanel {
 
 	private void setDataPanelLayout() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
-//		decData.setPreferredSize(new Dimension(this.getWidth(), 80));
-//		hexData.setPreferredSize(new Dimension(this.getWidth(), 80));
-//		binData.setPreferredSize(new Dimension(this.getWidth(), 80));
-		
 		add(decData);
 		add(hexData);
 		add(binData);
 		
-		Dimension dm = getSize();
-		setPreferredSize(new Dimension((int) dm.getWidth(), 100));
-		
-//		setLayout(new GridBagLayout());
-//		GridBagConstraints gc = new GridBagConstraints();
-//		
-//		// row 1
-//		gc.gridx = 0;
-//		gc.gridy = 0;
-//		
-//		gc.weighty = 0.1;
-//		gc.weightx = 1;
-//		
-//		gc.fill = GridBagConstraints.HORIZONTAL;
-//		gc.anchor = GridBagConstraints.NORTHWEST ;
-//		gc.insets = new Insets(0,5,0,30);
-//		add(decData, gc);
-//		
-//		gc.gridy ++;
-//		add(hexData, gc);
-//
-//		gc.gridy ++;
-//		add(binData, gc);
-
+//		Dimension dm = getSize();
+//		setPreferredSize(new Dimension((int) dm.getWidth(), 100));
 		
 	}
 
@@ -156,6 +115,12 @@ public class DataPanel extends JPanel {
 		dataTextPaneBackgroundColor = decData.getBackground();
 		return dataTextPaneBackgroundColor;
 	}
-
+	
+	public void setDataFont(Font font) {
+		decData.setFont(font);
+		hexData.setFont(font);
+		binData.setFont(font);
+		updateUI();
+	}
 
 }
