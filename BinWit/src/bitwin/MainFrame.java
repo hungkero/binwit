@@ -136,7 +136,7 @@ public class MainFrame extends JFrame {
 			 
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
 
-			setSize(800, dWordItemList.size()*110 );
+			setSize(700, dWordItemList.size()*125 - 20);
 		}
 		else {
 			mainText.setVisible(true);

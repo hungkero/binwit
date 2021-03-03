@@ -26,6 +26,7 @@ public class DataPanel extends JPanel {
 	private Color dataTextPaneBackgroundColor;
 	
 	private boolean binDataDisable=false;
+	private boolean horizontalLayoutEnable=false;
 	
 	public void setBinDataDisable(boolean binDataDisable) {
 		this.binDataDisable = binDataDisable;
@@ -47,6 +48,12 @@ public class DataPanel extends JPanel {
 		binData.updateUI();
 	}
 	
+	public void setHorizontalLayoutEnable(boolean horizontalLayoutEnable) {
+		this.horizontalLayoutEnable = horizontalLayoutEnable;
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		updateUI();
+	}
+
 	private String addUnderscore(String str) {
 		StringBuilder stringBuilder = new StringBuilder();
 
@@ -64,7 +71,17 @@ public class DataPanel extends JPanel {
 	}
 
 	public DataPanel() {
-		
+		constructPanel();
+	}
+	
+	
+	public DataPanel(boolean horizontalLayoutEnable) {
+		this.horizontalLayoutEnable = horizontalLayoutEnable;
+		constructPanel();
+	}
+
+	
+	private void constructPanel() {
 		//data JTextPane setting
 		decData = new JTextPane();
 		hexData = new JTextPane();
@@ -96,18 +113,18 @@ public class DataPanel extends JPanel {
 		binData.setText("BIN");
 		
 		setDataPanelLayout();
-		
-		
 	}
 
 	private void setDataPanelLayout() {
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		if (horizontalLayoutEnable) {
+			setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		}
+		else {
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		}
 		add(decData);
 		add(hexData);
 		add(binData);
-		
-//		Dimension dm = getSize();
-//		setPreferredSize(new Dimension((int) dm.getWidth(), 100));
 		
 	}
 

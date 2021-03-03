@@ -38,6 +38,9 @@ public class BitPanel extends JPanel {
 	// register button
 	private JButton  registerDataBtn;
 	
+	// for multiple dwords
+	private boolean multipleDWords;
+	
 	private ArrayList<String> bitList31to0;
 	private ArrayList<String> bitList63to32;
 	private ArrayList<String> bitListblank31to0;
@@ -222,7 +225,7 @@ public class BitPanel extends JPanel {
 		tableblank63to32.setBackground(this.getBackground());
 		tableblank63to32.setFont(new Font(Font.SERIF, Font.PLAIN, 9));
 		
-		
+
 		// button for create LowerBitPanel
 		addLowerBitPanelbtn.addActionListener(new ActionListener() {
 			@Override
@@ -239,12 +242,6 @@ public class BitPanel extends JPanel {
 					repaint();
 				} else {
 					try {
-//						remove(lowerBitPanel);
-//						revalidate();
-//						repaint();
-
-						lowerBitPanel.finalize();
-
 						addLowerBitPanelbtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 15));
 						addLowerBitPanelbtn.setText("+");
 						lowerBitPanelisEnable = false;
@@ -312,8 +309,6 @@ public class BitPanel extends JPanel {
 		t1.start();
 	}
 
-	
-
 	private ArrayList<String> initBitList(ArrayList<String> list) {
 		list.clear();
 		for (int i = 0; i< 32; i++) {
@@ -377,7 +372,7 @@ public class BitPanel extends JPanel {
 			for (int i: selectedCols) {
 				selectedBits.append((String) table63to32.getValueAt(selectedRow, i));
 			}
-		}	
+		}	 
 
 		if (table31to0.getSelectedColumn() != -1) { 
 			int[] selectedCols = table31to0.getSelectedColumns();
@@ -450,15 +445,14 @@ public class BitPanel extends JPanel {
 				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				add(table63to32);
 				add(tableblank63to32);
+				table63to32.setBackground(Color.WHITE);
+				tableblank63to32.setBackground(Color.WHITE);
 				add(table31to0);
 				add(tableblank31to0);
 				table31to0.setBackground(Color.WHITE);
-				table63to32.setBackground(Color.WHITE);
 				tableblank31to0.setBackground(Color.WHITE);
-				tableblank63to32.setBackground(Color.WHITE);
 				setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 			}
-
 		}
 		
 		class DataPanelandExpandButton extends JPanel{
@@ -505,5 +499,22 @@ public class BitPanel extends JPanel {
 
 	public int getBitPanelLevel() {
 		return bitPanelLevel;
+	}
+
+	public void setMultipleDWords(boolean multipleDWords) {
+		this.multipleDWords = multipleDWords;
+
+		if (multipleDWords)	{
+			table63to32.setVisible(false);
+			tableblank63to32.setVisible(false);
+			addLowerBitPanelbtn.setVisible(false);
+			selectedDataPanel.setBinDataDisable(true);
+			selectedDataPanel.setHorizontalLayoutEnable(true);
+			
+			table31to0.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+			tableblank31to0.setFont(new Font(Font.SERIF, Font.PLAIN, 8));
+			selectedDataPanel.setDataFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
+			updateUI();
+		}
 	}
 }
