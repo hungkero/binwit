@@ -173,9 +173,11 @@ public class TittleBarPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if (multipleDWordBtn.isSelected()) {
 					multipleDwordEnable.textDetect("1");
+					memHistMenuBar.setVisible(false);
 				}
 				else {
 					multipleDwordEnable.textDetect("0");
+					memHistMenuBar.setVisible(true);
 				}
 				
 			}

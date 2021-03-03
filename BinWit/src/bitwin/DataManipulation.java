@@ -299,7 +299,6 @@ public class DataManipulation {
 				| str.contains(",")
 				| str.contains(".")
 				) {
-//			System.out.println("UNALLOW");
 			return true;
 		}
 		else {

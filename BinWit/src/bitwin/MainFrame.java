@@ -110,6 +110,7 @@ public class MainFrame extends JFrame {
 		dWordItemList.forEach(dWItem -> dWItem.setdWItemListListener(new StringArrayListener() {
 			@Override
 			public void textDetect(ArrayList<String> arrayList) {
+				dWordItemList.forEach(i -> i.setdWData(0));
 				for (int i=0; i<arrayList.size(); i++) {
 					DWordItem item = dWordItemList.get(i);
 					long rawDecData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
@@ -135,7 +136,7 @@ public class MainFrame extends JFrame {
 			 
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
 
-			setSize(800, dWordItemList.size()*105 );
+			setSize(800, dWordItemList.size()*110 );
 		}
 		else {
 			mainText.setVisible(true);
