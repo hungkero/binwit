@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 
@@ -32,6 +33,9 @@ public class MainFrame extends JFrame {
 	
 	//multiple dword parsing window
 	private ArrayList<DWordItem> dWordItemList = new ArrayList<DWordItem>();
+	
+	//scroll pane
+	JScrollPane scrollPane;
 	
 	public MainFrame() {
 		super("BinWit");
@@ -138,7 +142,9 @@ public class MainFrame extends JFrame {
 			 
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
 
-			setSize(700, dWordItemList.size()*130 - 20);
+			//update size
+			scrollPane.setPreferredSize(new Dimension(this.getWidth(), dWordItemList.size()*125 ));
+			setSize(800, dWordItemList.size()*125 + 40);
 		}
 		else {
 			mainText.setVisible(true);
@@ -148,7 +154,9 @@ public class MainFrame extends JFrame {
 
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(false));
 
-			setSize(800, 40+140+140+180+lowerBitPanels.size()*180);
+			//update size
+			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 140+180+lowerBitPanels.size()*180));
+			setSize(800, 40+120+140+180+lowerBitPanels.size()*180);
 		}
 
 	}
@@ -166,8 +174,8 @@ public class MainFrame extends JFrame {
 		Border outerBorder = BorderFactory.createEmptyBorder(10,8,10,8);
 		dataPanel.setBorder(outerBorder);
 		bitPanel.setBorder(outerBorder);
-
 		dWordItemList.forEach(dWItem -> dWItem.setBorder(outerBorder));
+
 
 		// color
 		Color backgroundColor = new Color(224,235,235, 248);
@@ -184,50 +192,67 @@ public class MainFrame extends JFrame {
 
 
 		//Layout manager
+		class ScrollPanel extends JPanel {
+			public ScrollPanel() {
+				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+				add(dataPanel);
+				add(bitPanel);
+				dWordItemList.forEach(dWItem -> add(dWItem));
+				bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() {
+					@Override
+					public void lowerBitPanelHandle(BitPanel bitPanel, boolean newAdd) {
+						if (newAdd == true) {
+							add(bitPanel);
+							lowerBitPanels.add(bitPanel);
+							bitPanel.setBorder(outerBorder);
+							bitPanel.setBackground(new Color(1, 1, 1, 1));
+						}
+						else {
+							int bitPanelLeveltoRemove = bitPanel.getBitPanelLevel();
+							for (BitPanel bitPanel_itr: lowerBitPanels) {
+								if (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove ) {
+									remove(bitPanel_itr);
+									revalidate();
+								}
+							}
+							lowerBitPanels.removeIf(bitPanel_itr -> (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove)	);
+						}
+						
+						//update size
+						Dimension dm = getSize();
+						lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension((int) dm.getWidth(), 180)));
+						if (lowerBitPanels.size() > 3) {
+							getContentPane().setPreferredSize(new Dimension((int) dm.getWidth(), 40+140+140+180+3*180));
+						}
+						else {
+							getContentPane().setPreferredSize(new Dimension((int) dm.getWidth(), 40+140+140+180+lowerBitPanels.size()*180));
+						}
+						repaint();
+					}
+				});
+
+				setBackground(new Color(224,235,235, 0));
+			}
+		}
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		scrollPane = new JScrollPane(new ScrollPanel());
 		add(tittleBarPanel);
 		add(mainText);
-		add(dataPanel);
-		add(bitPanel);
-		dWordItemList.forEach(dWItem -> add(dWItem));
+		add(scrollPane);
 		
 		
 		// size control
-		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 20));
+		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 40));
 		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
 		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
 		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
+		dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 130)));
+		lowerBitPanels.forEach(bitPanel -> bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180)));
 
-		setSize(800, 40+140+140+180+lowerBitPanels.size()*180);
+		scrollPane.setPreferredSize(new Dimension(this.getWidth(), 140+180+lowerBitPanels.size()*180));
+		setSize(800, 40+120+140+180+lowerBitPanels.size()*180);
 
-		bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() {
-			@Override
-			public void lowerBitPanelHandle(BitPanel bitPanel, boolean newAdd) {
-				if (newAdd == true) {
-					add(bitPanel);
-					lowerBitPanels.add(bitPanel);
-					bitPanel.setBorder(outerBorder);
-					bitPanel.setBackground(new Color(1, 1, 1, 1));
-				}
-				else {
-					int bitPanelLeveltoRemove = bitPanel.getBitPanelLevel();
-					for (BitPanel bitPanel_itr: lowerBitPanels) {
-						if (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove ) {
-							remove(bitPanel_itr);
-							revalidate();
-						}
-					}
-					lowerBitPanels.removeIf(bitPanel_itr -> (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove)	);
-				}
-				Dimension dm = getSize();
-				setSize(new Dimension(dm.width, 40+140+140+180+lowerBitPanels.size()*180));
-				repaint();
-			}
-		});
 
-		// size control for dWordItem
-		dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 80)));
-		
 		
         // misc
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
