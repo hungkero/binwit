@@ -27,13 +27,11 @@ public class DWordItem extends JPanel {
 	public DWordItem(int itemIndex) {
 		this.itemIndex = itemIndex;
 
-		dWDataInput = new JTextField();
 		bitPanel = new BitPanel(2);
-		
 		bitPanel.setMultipleDWords(true);
 		
-		
-		
+		dWDataInput = new JTextField();
+		dWDataInput.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
 		dWDataInput.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				String textstr = dWDataInput.getText();
@@ -45,7 +43,6 @@ public class DWordItem extends JPanel {
 
 				if (itemList.size() == 1) {
 					long rawDecData = datadetect.getRawDecData(textstr.replaceAll("\\s", ""));
-//					setRawDecData(rawDecData);
 					bitPanel.setRawDecData(rawDecData);
 				}
 				else {

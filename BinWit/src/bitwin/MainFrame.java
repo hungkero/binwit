@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.Border;
 
 public class MainFrame extends JFrame {
@@ -136,7 +138,7 @@ public class MainFrame extends JFrame {
 			 
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
 
-			setSize(700, dWordItemList.size()*125 - 20);
+			setSize(700, dWordItemList.size()*130 - 20);
 		}
 		else {
 			mainText.setVisible(true);
