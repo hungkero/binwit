@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 public class DWordItem extends JPanel {
 	private BitPanel   bitPanel;
 	private JTextField dWDataInput;
+
 	private int        itemIndex;
 
 	private StringArrayListener dWItemListListener;
@@ -103,4 +104,9 @@ public class DWordItem extends JPanel {
 		dWDataInput.setText("0x"+Long.toHexString(rawDecData));
 		setRawDecData(rawDecData);
 	};
+
+	public int getItemIndex() {
+		return itemIndex;
+	}
+
 }

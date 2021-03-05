@@ -113,15 +113,31 @@ public class MainFrame extends JFrame {
 
 
 		// multiple dword parsing window
-		for (int i = 0; i<5; i++) {
+		for (int i = 0; i<11; i++) {
 			dWordItemList.add(new DWordItem(i));
 		}
 		
 		dWordItemList.forEach(dWItem -> dWItem.setdWItemListListener(new StringArrayListener() {
 			@Override
 			public void textDetect(ArrayList<String> arrayList) {
-				dWordItemList.forEach(i -> i.setdWData(0));
-				for (int i=0; i<arrayList.size(); i++) {
+//				if (dWordItemList.size() < arrayList.size()) {
+//					for (int i = dWordItemList.size(); i < arrayList.size(); i++) {
+//						dWordItemList.add(new DWordItem(i));
+//					}
+//				}
+//				else {
+//					for (int i = 5; i < dWordItemList.size(); i++) {
+//						dWordItemList.remove(i);
+//					}
+//				}
+//
+//				dWordItemList.forEach(i -> i.setdWData(0));
+//				dWordItemList.forEach(i -> i.setVisible(true));
+//				
+//				dWordItemList.forEach(i -> System.out.println(i.getItemIndex()));
+//				System.out.println(dWordItemList.size());
+//				
+				for (int i=0; i<dWordItemList.size(); i++) {
 					DWordItem item = dWordItemList.get(i);
 					long rawDecData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
 					item.setdWData(rawDecData);
@@ -148,8 +164,8 @@ public class MainFrame extends JFrame {
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
 
 			//update size
-			scrollPane.setPreferredSize(new Dimension(this.getWidth(), dWordItemList.size()*135));
-			setSize(800, dWordItemList.size()*135 + 40);
+			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 5*135));
+			setSize(800, 5*135 + 40);
 		}
 		else {
 			mainText.setVisible(true);
@@ -167,11 +183,11 @@ public class MainFrame extends JFrame {
 				scrollPane.setVisible(true);
 				lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth(), 180))); 
 				scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
-				mainFrame.setSize( 800, 40+120+140+180+190);
+				setSize( 800, 40+120+140+180+190);
 			}
 			else {
 				scrollPane.setVisible(false);
-				mainFrame.setSize(800, 40+120+140+180);
+				setSize(800, 40+120+140+180);
 			}
 			
 		}
