@@ -117,23 +117,6 @@ public class MainFrame extends JFrame {
 		dWordItemList.forEach(dWItem -> dWItem.setdWItemListListener(new StringArrayListener() {
 			@Override
 			public void textDetect(ArrayList<String> arrayList) {
-//				if (dWordItemList.size() < arrayList.size()) {
-//					for (int i = dWordItemList.size(); i < arrayList.size(); i++) {
-//						dWordItemList.add(new DWordItem(i));
-//					}
-//				}
-//				else {
-//					for (int i = 5; i < dWordItemList.size(); i++) {
-//						dWordItemList.remove(i);
-//					}
-//				}
-//
-//				dWordItemList.forEach(i -> i.setdWData(0));
-//				dWordItemList.forEach(i -> i.setVisible(true));
-//				
-//				dWordItemList.forEach(i -> System.out.println(i.getItemIndex()));
-//				System.out.println(dWordItemList.size());
-//				
 				for (int i=0; i<dWordItemList.size(); i++) {
 					DWordItem item = dWordItemList.get(i);
 					long rawDecData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
@@ -148,7 +131,6 @@ public class MainFrame extends JFrame {
 		layoutConfigure();
 	}
 
-	
 	private void updateLayout() {
 		if (this.multipleDWordEn == true) {
 			mainText.setVisible(false);
@@ -158,10 +140,6 @@ public class MainFrame extends JFrame {
 			 
 			scrollPane.setVisible(true);
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
-
-//			//update size
-//			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 5*135));
-//			setSize(800, 5*135 + 40);
 		}
 		else {
 			mainText.setVisible(true);
@@ -176,19 +154,8 @@ public class MainFrame extends JFrame {
 			}
 			
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(false));
-
-//			if (lowerBitPanels.size() > 0) {
-//				scrollPane.setVisible(true);
-//				lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth(), 180))); 
-//				scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
-//				setSize( 800, 40+120+140+180+190);
-//			}
-//			else {
-//				scrollPane.setVisible(false);
-//				setSize(800, 40+120+140+180);
-//			}
-			
 		}
+
 		configureSize();
 
 	}
@@ -196,7 +163,6 @@ public class MainFrame extends JFrame {
 	public void layoutConfigure() {
         // remove window default title bar
 		setUndecorated(true);
-
 
 		//border of sub-component
 		tittleBarPanel.setBorder(BorderFactory.createEmptyBorder(8,8,3,8));
@@ -246,7 +212,7 @@ public class MainFrame extends JFrame {
 							lowerBitPanels.removeIf(bitPanel_itr -> (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove)	);
 						}
 						
-						//update size
+						//update layout
 						if (lowerBitPanels.size() > 0) {
 							scrollPane.setVisible(true);
 						}
@@ -278,22 +244,11 @@ public class MainFrame extends JFrame {
 		 
 		// size control
 		configureSize();
-//		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 40));
-//		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
-//		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
-//		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
-//		dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 130)));
-//		lowerBitPanels.forEach(bitPanel -> bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180)));
-//
-//		scrollPane.setPreferredSize(new Dimension(this.getWidth(), lowerBitPanels.size()*180));
-//		setSize(800, 40+120+140+180+lowerBitPanels.size()*180);
-
 
 		
         // misc
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		//
 		//border
         getRootPane().setBorder(BorderFactory.createMatteBorder(0,0,0,0, Color.LIGHT_GRAY));
 		
@@ -308,7 +263,7 @@ public class MainFrame extends JFrame {
 		}
 		
         // The mouse listener and mouse motion listener we add here is to simply
-        // make our frame draggable.
+        // make our frame dragable.
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 point.x = e.getX();
@@ -325,7 +280,6 @@ public class MainFrame extends JFrame {
         });
         setLocationRelativeTo(null); 
 	}
-	
 
 	private void configureSize() {
 
@@ -349,8 +303,6 @@ public class MainFrame extends JFrame {
 			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
 			setSize(800, 40+120+140+180);
 		}
-
-
 	}
 }
 
