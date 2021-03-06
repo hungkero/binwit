@@ -71,7 +71,7 @@ public class DWordItem extends JPanel {
 			public TablePanel() {
 				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				add(bitPanel);
-				setBorder(BorderFactory.createEmptyBorder(2, 13, 2, 2));
+				setBorder(BorderFactory.createEmptyBorder(2, 32, 2, 2));
 			}
 		}
 		
@@ -81,7 +81,7 @@ public class DWordItem extends JPanel {
 				class LableDataInput extends JPanel {
 					public LableDataInput() {
 						setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-						JLabel jLabel = new JLabel(Integer.toString(itemIndex)+" ");
+						JLabel jLabel = new JLabel("DW" + Integer.toString(itemIndex)+" ");
 						add(jLabel);
 						add(dWDataInput);
 					}

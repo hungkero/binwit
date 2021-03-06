@@ -39,6 +39,7 @@ public class BitPanel extends JPanel {
 	
 	// register button
 	private JButton  registerDataBtn;
+	private JLabel subNo;
 	
 	// for multiple dwords
 	private boolean multipleDWords;
@@ -475,7 +476,7 @@ public class BitPanel extends JPanel {
 //						registerDataBtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,1, datapanelColor.brighter()), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
 //						
 						if (bitPanelLevel > 1 ) {
-							JLabel subNo = new JLabel("Sub " + Integer.toString(bitPanelLevel-1));
+							subNo = new JLabel("Sub " + Integer.toString(bitPanelLevel-1));
 							subNo.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 11));
 							add(subNo);
 						}
@@ -515,6 +516,8 @@ public class BitPanel extends JPanel {
 			table63to32.setVisible(false);
 			tableblank63to32.setVisible(false);
 			addLowerBitPanelbtn.setVisible(false);
+			subNo.setVisible(false);
+
 			selectedDataPanel.setBinDataDisable(true);
 			selectedDataPanel.setHorizontalLayoutEnable(true);
 			
