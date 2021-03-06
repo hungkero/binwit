@@ -1,7 +1,6 @@
 package bitwin;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -114,17 +113,7 @@ public class MainFrame extends JFrame {
 			dWordItemList.add(new DWordItem(i));
 		}
 		
-		dWordItemList.forEach(dWItem -> dWItem.setdWItemListListener(new StringArrayListener() {
-			@Override
-			public void textDetect(ArrayList<String> arrayList) {
-				for (int i=0; i<dWordItemList.size(); i++) {
-					DWordItem item = dWordItemList.get(i);
-					long rawDecData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
-					item.setdWData(rawDecData);
-				}
-			}
-		}));
-		
+
 		// init
 		dataPanel.setRawDecData(DataManipulation.getInst().getRawDecData("0+0"));
 		
@@ -158,6 +147,9 @@ public class MainFrame extends JFrame {
 
 		configureSize();
 
+//		updateLayout();
+//		repaint();
+
 	}
 
 	public void layoutConfigure() {
@@ -187,11 +179,37 @@ public class MainFrame extends JFrame {
 		tittleBarPanel.refreshColor();
 
 
-		//Layout manager
+		//Layout manager 
 		class ScrollPanel extends JPanel {
 			public ScrollPanel() {
 				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				dWordItemList.forEach(dWItem -> add(dWItem));
+				class DWordItemListListener implements DWordItemListener {
+					@Override
+					public void textDetect(ArrayList<String> arrayList, int itemIndex) {
+						if (arrayList.size() > (dWordItemList.size()-itemIndex)) {
+							for (int i=dWordItemList.size(); i < (arrayList.size()+itemIndex); i++) {
+								dWordItemList.add(new DWordItem(i));
+								add(dWordItemList.get(i));
+								dWordItemList.get(i).setBackground(new Color(224,235,235, 0));
+								dWordItemList.get(i).setBorder(outerBorder);
+								dWordItemList.get(i).setdWItemListListener(new DWordItemListListener());
+							}
+						}
+
+						for (int i=0; i<arrayList.size(); i++) {
+							DWordItem item = dWordItemList.get(i+itemIndex);
+							long rawDecData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
+							item.setdWData(rawDecData);
+						}
+
+						updateLayout(); 
+						updateUI();
+						repaint();					
+					}
+				}
+				dWordItemList.forEach(dWItem -> dWItem.setdWItemListListener(new DWordItemListListener()));
+				
 				bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() { 
 					@Override
 					public void lowerBitPanelHandle(BitPanel bitPanel, boolean newAdd) {
@@ -212,15 +230,7 @@ public class MainFrame extends JFrame {
 							lowerBitPanels.removeIf(bitPanel_itr -> (bitPanel_itr.getBitPanelLevel() >= bitPanelLeveltoRemove)	);
 						}
 						
-						//update layout
-						if (lowerBitPanels.size() > 0) {
-							scrollPane.setVisible(true);
-						}
-						else {
-							scrollPane.setVisible(false);
-						}
-						configureSize();
-						
+						updateLayout();
 						updateUI();
 						repaint();
 					}

@@ -23,7 +23,7 @@ public class DWordItem extends JPanel {
 
 	private int        itemIndex;
 
-	private StringArrayListener dWItemListListener;
+	private DWordItemListener dWItemListListener;
 	
 	public DWordItem(int itemIndex) {
 		this.itemIndex = itemIndex;
@@ -47,7 +47,7 @@ public class DWordItem extends JPanel {
 					bitPanel.setRawDecData(rawDecData);
 				}
 				else {
-					dWItemListListener.textDetect(itemList);
+					dWItemListListener.textDetect(itemList, itemIndex);
 				}
 
 
@@ -71,7 +71,7 @@ public class DWordItem extends JPanel {
 			public TablePanel() {
 				setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 				add(bitPanel);
-				setBorder(BorderFactory.createEmptyBorder(2, 40, 2, 2));
+				setBorder(BorderFactory.createEmptyBorder(2, 50, 2, 2));
 			}
 		}
 		
@@ -82,7 +82,7 @@ public class DWordItem extends JPanel {
 					public LableDataInput() {
 						setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 						JLabel jLabel = new JLabel(String.format("DW %2d ",itemIndex));
-//						jLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
+						jLabel.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
 						add(jLabel);
 						add(dWDataInput);
 					}
@@ -97,7 +97,7 @@ public class DWordItem extends JPanel {
 	}
 
 
-	public void setdWItemListListener(StringArrayListener dWItemListListener) {
+	public void setdWItemListListener(DWordItemListener dWItemListListener) {
 		this.dWItemListListener = dWItemListListener;
 	}
 	
