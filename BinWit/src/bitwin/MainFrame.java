@@ -284,24 +284,30 @@ public class MainFrame extends JFrame {
 	private void configureSize() {
 
 		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 40));
-		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
-		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
+		mainText.setPreferredSize(new Dimension(this.getWidth(), 90));
+		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 110));
 		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
-
+ 
 		//lowerBitPanels/dWordItem & scrollPane
 		if (multipleDWordEn == true) {
-			dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 130)));
+			dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth()-17, 130)));
 			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 5*135));
 			setSize(800, 5*135 + 40);
 		}
 		else if (lowerBitPanels.size() > 0) {
-			lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth(), 180))); 
+			lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth()-17, 180))); 
 			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
-			setSize( 800, 40+120+140+180+190);
+			if (lowerBitPanels.size() > 1)	{
+				scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200*2));
+				setSize( 800, 40+90+110+180+190*2);
+			}
+			else {
+				setSize( 800, 40+90+110+180+190);
+			}
 		}
 		else {
 			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
-			setSize(800, 40+120+140+180);
+			setSize(800, 40+90+110+180);
 		}
 	}
 }
