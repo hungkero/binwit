@@ -30,15 +30,10 @@ public class MainFrame extends JFrame {
 	
 	//multiple dword parsing window
 	private ArrayList<DWordItem> dWordItemList = new ArrayList<DWordItem>();
+	private boolean multipleDWordEn = false;
 	
 	//scroll pane
 	JScrollPane scrollPane;
-	
-	//content pane
-	private MainFrame mainFrame;
-	
-
-
 
 	public MainFrame() {
 		super("BinWit");
@@ -66,10 +61,12 @@ public class MainFrame extends JFrame {
 			@Override
 			public void textDetect(String text) {
 				if ( Integer.parseInt(text) == 1) {
-					updateLayout(true);
+					multipleDWordEn = true;
+					updateLayout();
 				}
 				else {
-					updateLayout(false);
+					multipleDWordEn = false;
+					updateLayout();
 				}
 			}
 		});
@@ -145,7 +142,6 @@ public class MainFrame extends JFrame {
 			}
 		}));
 		
-
 		// init
 		dataPanel.setRawDecData(DataManipulation.getInst().getRawDecData("0+0"));
 		
@@ -153,8 +149,8 @@ public class MainFrame extends JFrame {
 	}
 
 	
-	private void updateLayout(boolean multipleDwordEn) {
-		if (multipleDwordEn == true) {
+	private void updateLayout() {
+		if (this.multipleDWordEn == true) {
 			mainText.setVisible(false);
 			dataPanel.setVisible(false);
 			bitPanel.setVisible(false);
@@ -163,9 +159,9 @@ public class MainFrame extends JFrame {
 			scrollPane.setVisible(true);
 			dWordItemList.forEach(dWItem -> dWItem.setVisible(true));
 
-			//update size
-			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 5*135));
-			setSize(800, 5*135 + 40);
+//			//update size
+//			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 5*135));
+//			setSize(800, 5*135 + 40);
 		}
 		else {
 			mainText.setVisible(true);
@@ -173,24 +169,27 @@ public class MainFrame extends JFrame {
 			bitPanel.setVisible(true);
 			if (lowerBitPanels.size() > 0) {
 				scrollPane.setVisible(true);
-			}
-			lowerBitPanels.forEach(bitpanel -> bitpanel.setVisible(true));
-
-			
-			dWordItemList.forEach(dWItem -> dWItem.setVisible(false));
-
-			if (lowerBitPanels.size() > 0) {
-				scrollPane.setVisible(true);
-				lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth(), 180))); 
-				scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
-				setSize( 800, 40+120+140+180+190);
+				lowerBitPanels.forEach(bitpanel -> bitpanel.setVisible(true));
 			}
 			else {
 				scrollPane.setVisible(false);
-				setSize(800, 40+120+140+180);
 			}
 			
+			dWordItemList.forEach(dWItem -> dWItem.setVisible(false));
+
+//			if (lowerBitPanels.size() > 0) {
+//				scrollPane.setVisible(true);
+//				lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth(), 180))); 
+//				scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
+//				setSize( 800, 40+120+140+180+190);
+//			}
+//			else {
+//				scrollPane.setVisible(false);
+//				setSize(800, 40+120+140+180);
+//			}
+			
 		}
+		configureSize();
 
 	}
 
@@ -230,7 +229,6 @@ public class MainFrame extends JFrame {
 				bitPanel.setBitPanelLevelListener(new BitPanelUpdateListener() { 
 					@Override
 					public void lowerBitPanelHandle(BitPanel bitPanel, boolean newAdd) {
-						mainFrame = getMainFrame(); 
 						if (newAdd == true) {
 							add(bitPanel);
 							lowerBitPanels.add(bitPanel);
@@ -249,17 +247,13 @@ public class MainFrame extends JFrame {
 						}
 						
 						//update size
-						Dimension dm = getSize();
 						if (lowerBitPanels.size() > 0) {
 							scrollPane.setVisible(true);
-							lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension((int) dm.getWidth(), 180))); 
-							scrollPane.setPreferredSize(new Dimension((int) dm.getWidth(), 200));
-							mainFrame.setSize( 800, 40+120+140+180+190);
 						}
 						else {
 							scrollPane.setVisible(false);
-							mainFrame.setSize(800, 40+120+140+180);
 						}
+						configureSize();
 						
 						updateUI();
 						repaint();
@@ -283,15 +277,16 @@ public class MainFrame extends JFrame {
 		
 		 
 		// size control
-		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 40));
-		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
-		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
-		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
-		dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 130)));
-		lowerBitPanels.forEach(bitPanel -> bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180)));
-
-		scrollPane.setPreferredSize(new Dimension(this.getWidth(), lowerBitPanels.size()*180));
-		setSize(800, 40+120+140+180+lowerBitPanels.size()*180);
+		configureSize();
+//		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 40));
+//		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
+//		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
+//		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
+//		dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 130)));
+//		lowerBitPanels.forEach(bitPanel -> bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180)));
+//
+//		scrollPane.setPreferredSize(new Dimension(this.getWidth(), lowerBitPanels.size()*180));
+//		setSize(800, 40+120+140+180+lowerBitPanels.size()*180);
 
 
 		
@@ -329,10 +324,33 @@ public class MainFrame extends JFrame {
             }
         });
         setLocationRelativeTo(null); 
-		
 	}
-	public MainFrame getMainFrame() {
-		return this;
+	
+
+	private void configureSize() {
+
+		tittleBarPanel.setPreferredSize(new Dimension(this.getWidth(), 40));
+		mainText.setPreferredSize(new Dimension(this.getWidth(), 80));
+		dataPanel.setPreferredSize(new Dimension(this.getWidth(), 100));
+		bitPanel.setPreferredSize(new Dimension(this.getWidth(), 180));
+
+		//lowerBitPanels/dWordItem & scrollPane
+		if (multipleDWordEn == true) {
+			dWordItemList.forEach(dWItem -> dWItem.setPreferredSize(new Dimension(this.getWidth(), 130)));
+			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 5*135));
+			setSize(800, 5*135 + 40);
+		}
+		else if (lowerBitPanels.size() > 0) {
+			lowerBitPanels.forEach(bitPanelItr -> bitPanelItr.setPreferredSize(new Dimension(this.getWidth(), 180))); 
+			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
+			setSize( 800, 40+120+140+180+190);
+		}
+		else {
+			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
+			setSize(800, 40+120+140+180);
+		}
+
+
 	}
 }
 
