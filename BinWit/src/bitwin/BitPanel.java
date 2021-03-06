@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class BitPanel extends JPanel {
 	private long rawDecData;
@@ -466,12 +468,17 @@ public class BitPanel extends JPanel {
 					public LowerBitPanelButton() {
 						setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //						add(registerDataBtn);
-						registerDataBtn.setPreferredSize(new Dimension(30, 10));
-						registerDataBtn.setBackground(Color.LIGHT_GRAY);
-						registerDataBtn.setForeground(Color.WHITE);
-						registerDataBtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 15));
-						registerDataBtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,1, datapanelColor.brighter()), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
-						
+//						registerDataBtn.setPreferredSize(new Dimension(30, 10));
+//						registerDataBtn.setBackground(Color.LIGHT_GRAY);
+//						registerDataBtn.setForeground(Color.WHITE);
+//						registerDataBtn.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 15));
+//						registerDataBtn.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createMatteBorder(1,1,1,1, datapanelColor.brighter()), BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+//						
+						if (bitPanelLevel > 1 ) {
+							JLabel subNo = new JLabel("Sub " + Integer.toString(bitPanelLevel-1));
+							subNo.setFont(new Font(Font.SANS_SERIF, Font.CENTER_BASELINE, 11));
+							add(subNo);
+						}
 						
 						add(addLowerBitPanelbtn);
 						addLowerBitPanelbtn.setPreferredSize(new Dimension(30, 10));
