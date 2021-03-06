@@ -45,7 +45,7 @@ public class MainFrame extends JFrame {
 		tittleBarPanel.setMemHistMenuItemListener(new StringListener() {
 			@Override
 			public void textDetect(String text) {
-				long rawDecData = datadetect.getRawDecData(text.replaceAll("\\s", ""));
+				long rawDecData = datadetect.getRawDecData(text.replaceAll("\s", ""));
 
 				dataPanel.setRawDecData(rawDecData);
 				bitPanel.setRawDecData(rawDecData);
@@ -147,7 +147,6 @@ public class MainFrame extends JFrame {
 
 		configureSize();
 
-//		updateLayout();
 //		repaint();
 
 	}

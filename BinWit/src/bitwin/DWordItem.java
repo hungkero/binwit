@@ -38,7 +38,7 @@ public class DWordItem extends JPanel {
 				String textstr = dWDataInput.getText();
 				DataManipulation datadetect = DataManipulation.getInst();
 				
-				textstr = textstr.replaceAll("\\s", " ");
+				textstr = textstr.replaceAll("\s+", " ");
 				String[] items = textstr.split(" ");
 				ArrayList<String> itemList = new ArrayList<String>(Arrays.asList(items));
 
