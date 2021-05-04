@@ -147,8 +147,6 @@ public class MainFrame extends JFrame {
 
 		configureSize();
 
-//		repaint();
-
 	}
 
 	public void layoutConfigure() {
@@ -317,8 +315,8 @@ public class MainFrame extends JFrame {
 			}
 		}
 		else {
-			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
-			setSize(800, 40+90+110+180);
+//			scrollPane.setPreferredSize(new Dimension(this.getWidth(), 200));
+			setSize(800, 40+90+110+240);
 		}
 	}
 }

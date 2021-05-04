@@ -516,7 +516,9 @@ public class BitPanel extends JPanel {
 			table63to32.setVisible(false);
 			tableblank63to32.setVisible(false);
 			addLowerBitPanelbtn.setVisible(false);
-			subNo.setVisible(false);
+			if (subNo != null) {
+				subNo.setVisible(false);
+			}
 
 			selectedDataPanel.setBinDataDisable(true);
 			selectedDataPanel.setHorizontalLayoutEnable(true);
