@@ -113,7 +113,6 @@ public class DataManipulation {
 		}
 		
 		String expression = operationRawDecDataList.toString();
-		System.out.println(expression);
 		
 //		System.out.println(expression);
 

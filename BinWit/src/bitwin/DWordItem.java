@@ -28,8 +28,13 @@ public class DWordItem extends JPanel {
 	public DWordItem(int itemIndex) {
 		this.itemIndex = itemIndex;
 
-		bitPanel = new BitPanel(2);
+		bitPanel = new BitPanel(0); // set 2 for not able to modifie bit 
 		bitPanel.setMultipleDWords(true);
+		bitPanel.setBitTableModified(new StringListener() {
+			public void textDetect(String text) {
+				setdWData(Long.parseLong(text));
+			}
+		});
 		
 		dWDataInput = new JTextField();
 		dWDataInput.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
