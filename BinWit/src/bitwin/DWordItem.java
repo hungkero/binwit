@@ -32,7 +32,7 @@ public class DWordItem extends JPanel {
 		bitPanel.setMultipleDWords(true);
 		
 		dWDataInput = new JTextField();
-		dWDataInput.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
+		dWDataInput.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
 		dWDataInput.addKeyListener(new KeyListener() {
 			public void keyReleased(KeyEvent e) {
 				String textstr = dWDataInput.getText();

@@ -165,7 +165,7 @@ public class MainFrame extends JFrame {
 
 
 		// color
-		Color backgroundColor = new Color(224,235,235, 248);
+		Color backgroundColor = new Color(224,235,235, 245);
 		setBackground(backgroundColor);
 
 		backgroundColor = new Color(224,235,235, 0);
@@ -236,6 +236,8 @@ public class MainFrame extends JFrame {
 				});
 
 				setBackground(new Color(224,235,235, 0));
+				
+
 			}
 		}
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));

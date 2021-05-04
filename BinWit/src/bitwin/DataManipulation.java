@@ -55,9 +55,6 @@ public class DataManipulation {
 //		if (hasBitwiseNOT(str)) {
 //			stringErrorListener.textDetect("Currently Bitwise NOT is not supported");
 //		}
-//		else if (hasOperatorChar(str) & (Long.toBinaryString(rawData).length() > 52)) {
-//			stringErrorListener.textDetect("Math operation calculation with data bit width bigger than 52bit is not supported");
-//		}
 		if (str.contains("^")) {
 			stringErrorListener.textDetect("^ is bitwise XOR operator, use ** for exponential operator i.e 2**10 = 1024");
 		}
@@ -81,18 +78,18 @@ public class DataManipulation {
 
 		operationRawDecDataList = new StringBuilder();
 
-		boolean prevStrIsNotOperation = false;
+		boolean prevStrIsInvertOperation = false;
 		for(String str_itr: operationInfo) {
 			if (hasOperatorChar(str_itr)) {
 				if (str_itr.contains("~") | str_itr.contains("!")) {
-					prevStrIsNotOperation = true;
+					prevStrIsInvertOperation = true;
 				}
 				else {
 					operationRawDecDataList.append(str_itr);
 				}
 			}
 			else {
-				if (prevStrIsNotOperation) {
+				if (prevStrIsInvertOperation) {
 					if (hasBitWidthNumber(str_itr)) {
 						dataInputHasError = false;
 						stringErrorListener.textDetect("");
@@ -102,7 +99,7 @@ public class DataManipulation {
 
 						operationRawDecDataList.append(Long.toString(invertDecData)+"n");
 
-						prevStrIsNotOperation = false;
+						prevStrIsInvertOperation = false;
 					}
 					else {
 						stringErrorListener.textDetect("Number must have bit width to be able to be inverted i.e : 16'hcafe, 3'b010, 32'd12345 ");
@@ -116,6 +113,7 @@ public class DataManipulation {
 		}
 		
 		String expression = operationRawDecDataList.toString();
+		System.out.println(expression);
 		
 //		System.out.println(expression);
 
@@ -143,14 +141,13 @@ public class DataManipulation {
 			} catch (ScriptException e) {
 				System.out.println("WAIT for next operand");
 			}
-//			System.out.println(calcResult);
 		}
 
 		return calcResult;
 	}
 
 	private boolean hasBitWidthNumber(String str_itr) {
-		if (str_itr.matches("^[0-9]{1,4}\'[h,d,b][0-9a-f]+")) {
+		if (str_itr.matches("^[0-9]{1,4}\'[h,d,b][0-9a-f_]+")) {
 			return true;
 		}
 		return false;

@@ -521,9 +521,9 @@ public class BitPanel extends JPanel {
 			selectedDataPanel.setBinDataDisable(true);
 			selectedDataPanel.setHorizontalLayoutEnable(true);
 			
-			table31to0.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 13));
-			tableblank31to0.setFont(new Font(Font.SERIF, Font.PLAIN, 8));
-			selectedDataPanel.setDataFont(new Font(Font.MONOSPACED, Font.PLAIN, 13));
+			table31to0.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 14));
+			tableblank31to0.setFont(new Font(Font.SERIF, Font.PLAIN, 9));
+			selectedDataPanel.setDataFont(new Font(Font.MONOSPACED, Font.BOLD, 13));
 			updateUI();
 		}
 	}
