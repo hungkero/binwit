@@ -1,0 +1,2 @@
+# binwit
+My bitwise calculator
