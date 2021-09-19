@@ -8,7 +8,7 @@ import javax.script.ScriptException;
 
 public class DataManipulation {
 	
-	public final String[] operators = {"+","-","*","/","%","(",")","^","|","&","~","!"};
+	public final String[] operators = {"+","-","*","/","%","(",")","^","|","&","~","!","<",">"};
 	private static DataManipulation dataManipulation;
 	
 	private StringListener stringErrorListener;
@@ -114,7 +114,7 @@ public class DataManipulation {
 		
 		String expression = operationRawDecDataList.toString();
 		
-//		System.out.println(expression);
+		
 
 		// manipulate string for exponential operator
 //		expression = expression.replace("^", ";"); // change to ; for easier regex
@@ -130,6 +130,8 @@ public class DataManipulation {
 			try {
                 //expression = "72057594037927936n+2n";
 //				expression = "2**2";
+//				expression = "258>>2";
+//				System.out.println(expression);
 				result = engine.eval(expression);
 				if (result instanceof Double) {
 					calcResult = ((Double) result).longValue()	;
@@ -291,7 +293,7 @@ public class DataManipulation {
 	}
 	
 	public boolean hasUnAllowChar (String str) {
-		if (!str.matches("[0-9a-f*x+-/%\'h_()|&~!^]+")
+		if (!str.matches("[0-9a-f*x+-/%\'h_()|&~!^><]+")
 				| str.contains(",")
 				| str.contains(".")
 				) {
