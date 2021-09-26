@@ -26,8 +26,8 @@ public class DataManipulation {
 		return dataManipulation;
 	}
 	
-	public long getRawDecData(String str) {
-		long rawData;
+	public double getRawDecData(String str) {
+		double rawData;
 
 		rawData = 0;
 		dataInputHasError = false;
@@ -68,18 +68,22 @@ public class DataManipulation {
 		return rawData;
 	} 
 	
-	private long calcOperation(String str) {
-		long calcResult;
+	private double calcOperation(String str) {
+		double calcResult;
 		ArrayList<String> operationInfo;
 		StringBuilder operationRawDecDataList;
 		calcResult = 0;
 
 		operationInfo = getOperandsnOperator(str); // return the operands and operator in a List of Strings
 
-		operationRawDecDataList = new StringBuilder();
+		operationRawDecDataList = new StringBuilder(); // convert all the data in operationInfo from any format (hex, bin) to dec format (or float)
 
 		boolean prevStrIsInvertOperation = false;
+		boolean hasFloatNum = false;
 		for(String str_itr: operationInfo) {
+			if (isFloat(str_itr)) {
+				hasFloatNum = true;
+			}
 			if (hasOperatorChar(str_itr)) {
 				if (str_itr.contains("~") | str_itr.contains("!")) {
 					prevStrIsInvertOperation = true;
@@ -93,7 +97,7 @@ public class DataManipulation {
 					if (hasBitWidthNumber(str_itr)) {
 						dataInputHasError = false;
 						stringErrorListener.textDetect("");
-						long decData = getRawDecData(str_itr);
+						long decData = ((Double)getRawDecData(str_itr)).longValue(); //if prev is invert, then no float is allowed
 						int dataBitWidth = Integer.parseInt(str_itr.substring(0,str_itr.indexOf("'")));
 						long invertDecData = dataBitWidthStrip(dataBitWidth, ~decData);
 
@@ -107,7 +111,13 @@ public class DataManipulation {
 					}
 				}
 				else {
-					operationRawDecDataList.append(Long.toString(getRawDecData(str_itr))+"n");
+					if (hasFloatNum) {
+						operationRawDecDataList.append(Double.toString(getRawDecData(str_itr)));
+					}
+					else {
+						long tmpRawRecData = ((Double)getRawDecData(str_itr)).longValue();
+						operationRawDecDataList.append(Long.toString(tmpRawRecData)+"n");
+					}
 				}
 			}
 		}
@@ -122,6 +132,9 @@ public class DataManipulation {
 //		expression = expression.replaceAll("([0-9]+);([0-9]+)", "Math.pow($1,$2)");
 //		expression = expression.replaceAll("\\^", "**"); 
 		
+		if (hasFloatNum) {
+			expression = expression.replace("n", " ");
+		}
 		
 		if (!hasUnCloseBrackets(expression)) {
 			ScriptEngineManager manager = new ScriptEngineManager();
@@ -131,10 +144,11 @@ public class DataManipulation {
                 //expression = "72057594037927936n+2n";
 //				expression = "2**2";
 //				expression = "258>>2";
-//				System.out.println(expression);
+				System.out.println(expression);
 				result = engine.eval(expression);
 				if (result instanceof Double) {
-					calcResult = ((Double) result).longValue()	;
+					calcResult = (Double) result;
+//					System.out.println("result after" + calcResult);
 				}
 				else if (result != null) {
 					calcResult = Long.parseLong(result.toString());
@@ -192,12 +206,15 @@ public class DataManipulation {
 		return operationInfo;
 	}
 
-	public long parsingDecStrtoDecData(String str) {
-		long decData;
+	public float parsingDecStrtoDecData(String str) {
+		float decData;
 		decData = 0;
 
 		if (str.matches("^\'d[0-9]+")) {
 			decData = Long.parseUnsignedLong(str.substring(2,str.length()));
+		}
+		else if (str.matches("[0-9]+.[0-9]+")) {
+			decData = Float.parseFloat(str);
 		}
 		else if (str.matches("[0-9]+")) {
 			decData = Long.parseUnsignedLong(str);
@@ -277,8 +294,15 @@ public class DataManipulation {
 	
 	public boolean isDec (String str) {
 		if (str.matches("^\'d[0-9]+")
-				|str.matches("[0-9]+")
+				|str.matches("[0-9.]+")
 				|str.matches("^[0-9]{1,3}\'d[0-9]+")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isFloat (String str) {
+		if (str.matches("[0-9]+.[0-9]+")) {
 			return true;
 		}
 		return false;
@@ -295,7 +319,7 @@ public class DataManipulation {
 	public boolean hasUnAllowChar (String str) {
 		if (!str.matches("[0-9a-f*x+-/%\'h_()|&~!^><]+")
 				| str.contains(",")
-				| str.contains(".")
+//				| str.contains(".")
 				) {
 			return true;
 		}

@@ -45,9 +45,11 @@ public class MainFrame extends JFrame {
 		tittleBarPanel.setMemHistMenuItemListener(new StringListener() {
 			@Override
 			public void textDetect(String text) {
-				long rawDecData = datadetect.getRawDecData(text.replaceAll("\s", ""));
+				double rawDecFloatData = datadetect.getRawDecData(text.replaceAll("\s", ""));
+				
+				long rawDecData = ((Double)rawDecFloatData).longValue();
 
-				dataPanel.setRawDecData(rawDecData);
+				dataPanel.setRawDecData(rawDecFloatData);
 				bitPanel.setRawDecData(rawDecData);
 
 				mainText.setText(text);
@@ -90,9 +92,10 @@ public class MainFrame extends JFrame {
 		mainText.setTypingDataString(new StringListener() {
 			@Override
 			public void textDetect(String text) {
-				long rawDecData = datadetect.getRawDecData(text.replaceAll("\\s", ""));
+				double rawDecFloatData = datadetect.getRawDecData(text.replaceAll("\\s", ""));
+				long rawDecData = ((Double)rawDecFloatData).longValue();
 
-				dataPanel.setRawDecData(rawDecData);
+				dataPanel.setRawDecData(rawDecFloatData);
 				bitPanel.setRawDecData(rawDecData);
 				
 				tittleBarPanel.setCurrentOperation(text);
@@ -196,7 +199,8 @@ public class MainFrame extends JFrame {
 
 						for (int i=0; i<arrayList.size(); i++) {
 							DWordItem item = dWordItemList.get(i+itemIndex);
-							long rawDecData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
+							double rawDecFLoatData = DataManipulation.getInst().getRawDecData(arrayList.get(i));
+							long rawDecData = ((Double)rawDecFLoatData).longValue();
 							item.setdWData(rawDecData);
 						}
 

@@ -48,7 +48,8 @@ public class DWordItem extends JPanel {
 				ArrayList<String> itemList = new ArrayList<String>(Arrays.asList(items));
 
 				if (itemList.size() == 1) {
-					long rawDecData = datadetect.getRawDecData(textstr.replaceAll("\\s", ""));
+					double rawDecFloatData = datadetect.getRawDecData(textstr.replaceAll("\\s", ""));
+					long rawDecData = ((Double) rawDecFloatData).longValue(); 
 					bitPanel.setRawDecData(rawDecData);
 				}
 				else {

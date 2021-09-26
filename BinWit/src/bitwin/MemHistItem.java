@@ -10,7 +10,7 @@ import javax.swing.JMenuItem;
 
 public class MemHistItem extends JMenuItem implements Comparator<MemHistItem>{
 	private String str_operation;
-	private long rawDecResult;
+	private double rawDecResult;
 	
 	private StringListener itemClickedStringListener;
 
@@ -41,21 +41,21 @@ public class MemHistItem extends JMenuItem implements Comparator<MemHistItem>{
 		this.rawDecResult = DataManipulation.getInst().getRawDecData(str_operation);
 	}
 
-	public long getRawDecResult() {
+	public double  getRawDecResult() {
 		return rawDecResult;
 	}
 	
 	public String getStrHexResult() {
-		return Long.toHexString(rawDecResult);
+		return Double.toHexString(rawDecResult);
 	}
 
-	public String getStrDecResult() {
-		return Long.toString(rawDecResult);
-	}
+//	public String getStrDecResult() {
+//		return Long.toString(rawDecResult);
+//	}
 
-	public String getStrBinResult() {
-		return Long.toBinaryString(rawDecResult);
-	}
+//	public String getStrBinResult() {
+//		return Long.toBinaryString(rawDecResult);
+//	}
 
 	@Override
 	public String toString() {

@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.ColorModel;
+import java.text.DecimalFormat;
 
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -22,6 +23,7 @@ public class DataPanel extends JPanel {
 	private JTextPane binData;
 	
 	private long rawDecData;
+	private double rawDecFloatData;
 	
 	private Color dataTextPaneBackgroundColor;
 	
@@ -33,13 +35,15 @@ public class DataPanel extends JPanel {
 		binData.setVisible(false);
 	}
 
-	public void setRawDecData(long rawDecData) {
-		this.rawDecData = (long) rawDecData;
+	public void setRawDecData(double rawDecFloatData) {
+		this.rawDecFloatData = rawDecFloatData;
+		this.rawDecData = ((Double)rawDecFloatData).longValue();
 		updateDataLabel();
 	}
 
 	private void updateDataLabel() {
-		decData.setText("DEC    " + Long.toString(rawDecData));
+		decData.setText("DEC    " + new DecimalFormat("##.##").format(rawDecFloatData).toString());
+		System.out.println(new DecimalFormat("##.##").format(rawDecFloatData).toString());
 		hexData.setText("HEX  'h" + addUnderscore(Long.toHexString(rawDecData)));
 		binData.setText("BIN  'b" + addUnderscore(Long.toBinaryString(rawDecData)));
 
@@ -133,11 +137,11 @@ public class DataPanel extends JPanel {
 		return dataTextPaneBackgroundColor;
 	}
 	
-	public void setDataFont(Font font) {
+	public void setDataFont(	Font font) {
 		decData.setFont(font);
 		hexData.setFont(font);
 		binData.setFont(font);
 		updateUI();
 	}
-
+	
 }
